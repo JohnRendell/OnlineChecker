@@ -5,14 +5,13 @@
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-black?style=for-the-badge&logo=tailwindcss)
 ![MongoDB](https://img.shields.io/badge/MongoDB-black?style=for-the-badge&logo=mongodb)
 
-Welcome to the **Real-Time Multiplayer Game**! A simple game platform where players can connect, play, and spectate live matches in real-time. This project is powered by **Express.js**, **Socket.IO**, **TailwindCSS**, and **MongoDB** for seamless multiplayer experience.
+Welcome to the **Real-Time Multiplayer Game**! A simple game platform where players can connect, play, and spectate live matches in real-time. This project is built by **Express.js**, **Socket.IO**, **TailwindCSS**, and **MongoDB**.
 
 ## ✨ Features
 - **Real-Time Gameplay:** Instant updates using Socket.IO for a smooth multiplayer experience.
 - **Spectator Mode:** Watch live matches as they happen.
 - **Persistent Game States:** MongoDB stores game data, players, and stats.
 - **Responsive UI:** Designed with TailwindCSS for a clean and modern look.
-- **Secure:** Input sanitization and robust backend logic to prevent common vulnerabilities.
   
 ## 🚀 Tech Stack
 - **Backend:** Node.js, Express.js, Socket.IO
