@@ -2,7 +2,7 @@
 
 ![Express.js](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge&logo=express)
 ![Socket.IO](https://img.shields.io/badge/Socket.IO-010101?style=for-the-badge&logo=socket.io)
-![TailwindCSS]([https://img.shields.io/badge/TailwindCSS-06B6D4?style=for-the-badge&logo=tailwindcss](https://www.google.com/url?sa=i&url=https%3A%2F%2Fcommons.wikimedia.org%2Fwiki%2FFile%3ATailwind_CSS_Logo.svg&psig=AOvVaw1xgMyVxOfF6V1syKRFHZTH&ust=1733364301715000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCLj6-YyFjYoDFQAAAAAdAAAAABAE))
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-06B6D4?style=for-the-badge&logo=tailwindcss](https://www.google.com/url?sa=i&url=https%3A%2F%2Fcommons.wikimedia.org%2Fwiki%2FFile%3ATailwind_CSS_Logo.svg&psig=AOvVaw1xgMyVxOfF6V1syKRFHZTH&ust=1733364301715000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCLj6-YyFjYoDFQAAAAAdAAAAABAE))
 ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb)
 
 Welcome to the **Real-Time Multiplayer Game**! A simple game platform where players can connect, play, and spectate live matches in real-time. This project is powered by **Express.js**, **Socket.IO**, **TailwindCSS**, and **MongoDB** for seamless multiplayer experience.
