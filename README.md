@@ -1,9 +1,9 @@
 # 🎮 Real-Time Multiplayer Game
 
-![Express.js](https://img.shields.io/badge/Express.js-00FFFFFF?style=for-the-badge&logo=express)
-![Socket.IO](https://img.shields.io/badge/Socket.IO-00FFFFFF?style=for-the-badge&logo=socket.io)
-![TailwindCSS](https://img.shields.io/badge/TailwindCSS-00FFFFFF?style=for-the-badge&logo=tailwindcss)
-![MongoDB](https://img.shields.io/badge/MongoDB-00FFFFFF?style=for-the-badge&logo=mongodb)
+![Express.js](https://img.shields.io/badge/Express.js-black?style=for-the-badge&logo=express)
+![Socket.IO](https://img.shields.io/badge/Socket.IO-black?style=for-the-badge&logo=socket.io)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-black?style=for-the-badge&logo=tailwindcss)
+![MongoDB](https://img.shields.io/badge/MongoDB-black?style=for-the-badge&logo=mongodb)
 
 Welcome to the **Real-Time Multiplayer Game**! A simple game platform where players can connect, play, and spectate live matches in real-time. This project is powered by **Express.js**, **Socket.IO**, **TailwindCSS**, and **MongoDB** for seamless multiplayer experience.
 
