@@ -1,0 +1,38 @@
+{
+  "name": "online-checker-multiplayer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon Backend/index.js",
+    "build": "npx tailwindcss -i Assets/CSS/input.css -o Assets/CSS/style.css --watch",
+    "public_uglify": "npx uglify-js Public/JS/loginAccount.js -o Public/MinJS/loginAccount.min.js  --compress --mangle && npx uglify-js Public/JS/signinAccount.js -o Public/MinJS/signinAccount.min.js  --compress --mangle && npx uglify-js Public/JS/function.js -o Public/MinJs/function.min.js --compress --mangle",
+    "view_uglify": "npx uglify-js Views/JS/functionDash.js -o Views/MinJs/functionDash.min.js --compress --mangle && npx uglify-js Views/JS/friendFunction.js -o Views/MinJs/friendFunction.min.js --compress --mangle && npx uglify-js Views/JS/visitFriend.js -o Views/MinJs/visitFriend.min.js --compress --mangle && npx uglify-js Views/JS/customModeFunction.js -o Views/MinJs/customModeFunction.min.js --compress --mangle && npx uglify-js Views/JS/historyFunction.js -o Views/MinJs/historyFunction.min.js --compress --mangle && npx uglify-js Views/JS/leaderboardFunction.js -o Views/MinJs/leaderboardFunction.min.js --compress --mangle && npx uglify-js Views/JS/watchLiveFunction.js -o Views/MinJs/watchLiveFunction.min.js --compress --mangle",
+    "global_JS_uglify": "npx uglify-js Assets/Global_JS/globalJS.js -o Assets/Min_Global_JS/globalJS.min.js --compress --mangle",
+    "library_uglify": "npx uglify-js Assets/Library/crypto-js/crypto-js.js -o Assets/Min_Library/crypto-js/crypto-js.min.js --compress --mangle && npx uglify-js Assets/Library/socket.io/client-dist/socket.io.js -o Assets/Min_Library/socket.io/client-dist/socket.io.min.js --compress --mangle",
+    "socket_uglify": "npx uglify-js Assets/Global_SocketIO/connection_socket.js -o Assets/Min_Global_SocketIO/connection_socket.min.js --compress --mangle && npx uglify-js Assets/Global_SocketIO/friend_socket.js -o Assets/Min_Global_SocketIO/friend_socket.min.js --compress --mangle && npx uglify-js Assets/Global_SocketIO/message_socket.js -o Assets/Min_Global_SocketIO/message_socket.min.js --compress --mangle && npx uglify-js Assets/Global_SocketIO/custom_lobby_socket.js -o Assets/Min_Global_SocketIO/custom_lobby_socket.min.js --compress --mangle",
+    "checker_uglify": "npx uglify-js Assets/Checker_socketIO/checker_socket.js -o Assets/Min_Checker_socketIO/checker_socket.min.js --compress --mangle && npx uglify-js Assets/Checker_socketIO/checker_spectatorSocket.js -o Assets/Min_Checker_socketIO/checker_spectatorSocket.min.js --compress --mangle",
+    "Checker_JS": "npx uglify-js Checker/JS/checkerFunction.js -o Checker/MinJs/checkerFunction.min.js --compress --mangle && npx uglify-js Checker/JS/checkerLogic.js -o Checker/MinJs/checkerLogic.min.js --compress --mangle"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.7",
+    "crypto-js": "^4.2.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.6.3",
+    "multer": "^1.4.5-lts.1",
+    "nodemon": "^3.1.7",
+    "sanitize-html": "^2.13.1",
+    "socket.io": "^4.8.0",
+    "uglify-js": "^3.19.3",
+    "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.13"
+  }
+}

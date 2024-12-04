@@ -1,0 +1,81 @@
+<!--Friend request div-->
+<div class="absolute z-10 top-0 flex justify-center items-center w-screen h-screen backdrop-blur-sm z-2"
+    id="modalFriendRequestPanel" style="display: none;">
+    <div class="border-2 border-blue-500 bg-white rounded-lg w-[80%] mt-[-20rem] opacity-0 h-fit p-4 md:w-[60%] md:rounded-2xl lg:w-[40%]" id="modalFriendRequestContainer">
+        
+        <div class="flex justify-between">
+            <!--Back button when in friend message page-->
+            <div class="w-fit h-fit" id="friendBackBtn" style="display: none;">
+                <button class="cursor-pointer w-[10px] h-auto" onclick="backToFront()">
+                    <img src="/Images/back button.png" alt="close icon">
+                </button>
+            </div>
+
+            <!--Display message on top, title of the modal.-->
+            <div class="w-full">
+                <h1 class="font-Pixelify text-center text-black text-lg" id="friendName">Friend Request</h1>
+            </div>
+
+            <!--Close button for modal-->
+            <div class="w-fit h-fit">
+                <button class="cursor-pointer w-[10px] h-auto"
+                    onclick="modalStatus('modalFriendRequestPanel', 'modalFriendRequestContainer', 'none', null);">
+                    <img src="/Images/close button.png" alt="close icon">
+                </button>
+            </div>
+        </div>
+
+        <!--Front panel-->
+        <div class="h-[15rem] w-full rounded-lg flex flex-col space-y-2 items-center overflow-x-hidden overflow-y-auto p-2 xsm:h-[10rem] md:h-[20rem] lg:h-[20rem]" id="requestPanel"></div>
+    </div>
+</div>
+
+<!--Logged in users-->
+<div class="w-full h-full flex justify-center items-center" id="loginFriendlist">
+    <div class="flex flex-col space-y-4 w-full h-auto items-center">
+        <!--Search bar for looking for player-->
+        <input type="text" placeholder="Search for players" class="font-Pixelify text-sm text-black rounded-2xl border-2 border-blue-500 w-[50%] h-fit p-2 focus:outline-none" id="search_friendlist" oninput="search_player_friendList()">
+
+        <div class="w-[80%] h-[30rem] bg-white flex flex-col space-y-4 rounded-2xl p-4 xsm:h-[15rem] md:h-[40rem] lg:h-[25rem]">
+
+            <!--Title-->
+            <div class="w-full h-fit flex flex-col space-y-2">
+                <h1 class="font-Pixelify text-lg text-black text-center">Friend list</h1>
+            </div>
+
+            <!--Loader for search-->
+            <div class="w-full h-auto flex flex-col space-y-2 items-center" id="searchLoader" style="display: flex;">
+                <div class="loader"></div>
+                <p class="font-Pixelify text-md text-black">Searching...</p>
+            </div>
+
+            <!--Container for list of all players available-->
+            <div class="w-full h-[25rem] flex flex-col space-y-4 rounded-2xl p-4 overflow-x-hidden overflow-y-auto xsm:h-[12rem] xsm:space-y-2 md:h-[40rem] lg:h-[25rem]"  id="friendlist-container">
+                <!--------TO HIDE--------
+                <div class="w-full h-fit flex justify-center" id="list_div_morty123" style="display: none;">
+                    <div class="w-fit h-fit p-4 flex flex-col space-y-2">
+                        <div class="flex flex-row space-x-2 items-center">
+                            <img class="w-[3rem] h-[3rem] rounded-full border-2 border-blue-500" alt="user profile" src="">
+                            
+                            <p class="font-Pixelify text-md text-black">Hide stuff</p>
+                            <button class="font-Pixelify text-sm w-fit h-auto p-2 text-white rounded-2xl bg-red-500 hover:bg-red-700">Hide stuff</button>
+                        </div>
+                    </div>
+                </div>
+                !--------TO HIDE-------->
+            </div>
+
+            <div class="w-full h-fit flex justify-center items-center">
+                <button class="font-Pixelify text-center text-sm text-white bg-blue-500 p-2 rounded-2xl hover:bg-blue-700" onclick="modalStatus('modalFriendRequestPanel', 'modalFriendRequestContainer', 'flex', 'modal_animation')">Friend Request</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--For guest users-->
+<div class="w-screen h-screen flex justify-center items-center" id="guestFriendlist" style="display: none;">
+    <div class="w-fit h-fit bg-white rounded-lg p-4">
+        <h1 class="font-Pixelify text-sm text-center text-black">You are on Guest mode, Logged in to access friend list
+        </h1>
+    </div>
+</div>

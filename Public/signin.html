@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--Web icon-->
+    <link rel="icon" href="/Images/Checker Logo.png">
+    <title>Online Checker - Sign in</title>
+
+    <!--Tailwind library-->
+    <link rel="stylesheet" href="/CSS/style.css">
+
+    <!--Get the crypto js library-->
+    <script src="/Min_Library/crypto-js/crypto-js.min.js"></script>
+</head>
+
+<body class="bg-gradient-to-r from-red-500 to-red-400 overflow-hidden">
+    <!--Loading div spinner-->
+    <div class="absolute top-0 backdrop-blur-sm w-screen h-screen flex justify-center items-center z-20" id="loadingSpinner"
+        style="display: none;">
+        <div class="flex flex-col space-y-2 items-center w-fit p-4 rounded-lg bg-white">
+            <span class="loader"></span>
+            <p class="font-Pixelify text-black text-lg">Validating...</p>
+        </div>
+
+        <style>
+            .loader {
+                width: 48px;
+                height: 48px;
+                border: 5px solid red;
+                border-bottom-color: transparent;
+                border-radius: 50%;
+                display: inline-block;
+                box-sizing: border-box;
+                animation: rotation 1s linear infinite;
+            }
+
+            @keyframes rotation {
+                0% {
+                    transform: rotate(0deg);
+                }
+
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+        </style>
+    </div>
+
+    <!--background image-->
+    <img src="/Images/Background.png" alt="background" class="w-[20rem] h-auto absolute right-0 bottom-0 z-1">
+    
+    <!--Content-->
+    <div class="absolute top-0 flex justify-center items-center w-screen h-screen z-2">
+        <div class="bg-white rounded-lg w-[80%] h-fit p-4 md:w-[60%] md:rounded-2xl lg:w-[40%]">
+            <h1 class="font-Pixelify text-center text-black text-lg">Sign in</h1>
+    
+            <!--body-->
+            <div class="flex flex-col space-y-[4rem] items-center xsm:space-y-2">
+                <!--Username-->
+                <div class="w-full h-fit flex flex-col space-y-2">
+                    <div class="flex justify-between">
+                        <label for="signinInputUser" class="font-Pixelify text-sm text-black">Username</label>
+                        <p class="font-Pixelify text-sm text-black" id="signinUserInputCount">0/10</p>
+                    </div>
+    
+                    <input type="text" id="signinInputUser"
+                        class="border-x-0 border-t-0 border-b-2 border-black font-Pixelify text-center text-sm p-2 focus:outline-none"
+                        placeholder="Type your Username" maxlength="10" oninput="typeInput('signinInputUser', 'signinUserInputCount')">
+                </div>
+    
+                <!--Password-->
+                <div class="w-full h-fit flex flex-col space-y-2">
+                    <div class="flex justify-between">
+                        <label for="signinInputPass" class="font-Pixelify text-sm text-black">Password</label>
+                        <p class="font-Pixelify text-sm text-black" id="signinPassInputCount">0/10</p>
+                    </div>
+    
+                    <div class="w-full flex justify-between space-x-2">
+                        <input type="password" id="signinInputPass"
+                            class="w-full border-x-0 border-t-0 border-b-2 border-black font-Pixelify text-center text-sm p-2 focus:outline-none"
+                            placeholder="Type your password" maxlength="10" oninput="typeInput('signinInputPass', 'signinPassInputCount')">
+    
+                        <button class="cursor-pointer w-[20px] h-auto" onclick="showInputPass('signinInputPass', 'signinEye')">
+                            <img src="/Images/Password eye.png" alt="eye icon" id="signinEye">
+                        </button>
+                    </div>
+                </div>
+    
+                <!--Confirm Password-->
+                <div class="w-full h-fit flex flex-col space-y-2">
+                    <div class="flex justify-between">
+                        <label for="signinInputRePass" class="font-Pixelify text-sm text-black">Confirm Password</label>
+                        <p class="font-Pixelify text-sm text-black" id="signinRepassInputCount">0/10</p>
+                    </div>
+    
+                    <div class="w-full flex justify-between space-x-2">
+                        <input type="password" id="signinInputRePass"
+                            class="w-full border-x-0 border-t-0 border-b-2 border-black font-Pixelify text-center text-sm p-2 focus:outline-none"
+                            placeholder="Confirm your password" maxlength="10" oninput="typeInput('signinInputRePass', 'signinRepassInputCount')">
+    
+                        <button class="cursor-pointer w-[20px] h-auto" onclick="showInputPass('signinInputRePass', 'signinEyeRepass')">
+                            <img src="/Images/Password eye.png" alt="eye icon" id="signinEyeRepass">
+                        </button>
+                    </div>
+                </div>
+    
+                <!--For error text-->
+                <div class="w-full h-[2rem] flex justify-center items-center">
+                    <p class="font-Pixelify text-sm text-red-500" id="error-text-p"></p>
+                </div>
+    
+                <!--For buttons-->
+                <div class="flex flex-col space-y-2 md:inline md:space-x-4">
+                    <button class="font-Pixelify text-sm underline text-black cursor-pointer" onclick="createAccount()">Proceed</button>
+                    <button class="font-Pixelify text-sm underline text-black cursor-pointer" onclick="backToIndex()">Go to
+                        login</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p>&nbsp;</p>
+</body>
+
+</html>
+
+<!--Script for functionalities-->
+<script src="MinJS/function.min.js"></script>
+<script src="MinJS/signinAccount.min.js"></script>
+<script src="/Min_Global_JS/globalJS.min.js"></script>

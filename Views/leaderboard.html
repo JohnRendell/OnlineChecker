@@ -1,0 +1,38 @@
+<div class="w-full h-full flex justify-center items-center">
+    <div class="flex flex-col space-y-4 w-full h-auto items-center">
+        <!--Search bar for looking for player-->
+        <input type="text" placeholder="Search for players"
+            class="font-Pixelify text-sm text-black rounded-2xl border-2 border-blue-500 w-[50%] h-fit p-2 focus:outline-none"
+            id="search_leaderboard" oninput="search_player_leaderboard()">
+
+        <!--Container for list of all players available-->
+        <div class="w-[80%] h-[30rem] bg-white flex flex-col space-y-2 rounded-2xl p-4 overflow-hidden xsm:h-[15rem] md:h-[40rem] lg:h-[25rem]">
+            <!--Title-->
+            <div class="w-full h-fit flex flex-col space-y-2">
+                <h1 class="font-Pixelify text-lg text-black text-center">Leaderboard</h1>
+                <p class="font-Pixelify text-sm text-black text-center" id="playerCount">Total Players: 0</p>
+            </div>
+
+            <!--Custom table for leaderboard-->
+            <div class="border-2 border-blue-500 rounded-2xl w-full h-full">
+                <!--table head-->
+                <div class="grid grid-cols-3 divide-x-2 divide-blue-500 border-b-2 border-b-blue-500 w-full">
+                    <h2 class="font-Pixelify text-black font-bold text-center">Rank</h2>
+                    <h2 class="font-Pixelify text-black font-bold text-center">Player Name</h2>
+                    <h2 class="font-Pixelify text-black font-bold text-center">Trophy</h2>
+                </div>
+
+                <!--table body-->
+                <div class="p-2">
+                    <div class="flex flex-col space-y-2 w-full h-[20rem] px-2 py-0 overflow-x-hidden overflow-y-auto xsm:h-[5rem] md:h-[30rem] lg:h-[15rem]" id="leaderboardContainer">
+                        <!--Loader for search-->
+                        <div class="w-full h-auto flex flex-col space-y-2 items-center" id="searchLoader" style="display: flex;">
+                            <div class="loader"></div>
+                            <p class="font-Pixelify text-md text-black">Searching...</p>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

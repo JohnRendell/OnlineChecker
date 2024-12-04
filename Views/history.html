@@ -1,0 +1,54 @@
+<!--For logged in users-->
+<div class="w-screen h-screen flex justify-center items-center" id="loginHistory">
+    <div class="w-[80%] h-[70%] bg-white rounded-lg p-4 flex flex-col space-y-4 xsm:h-[60%] md:h-[80%]">
+        <!--Title-->
+        <h1 class="font-Pixelify text-lg text-black text-center">History</h1>
+
+        <div class="w-full h-full p-2 flex flex-col space-y-4 overflow-x-hidden overflow-y-auto" id="historyContainer">
+            <!--Loader for search-->
+            <div class="w-full h-auto flex flex-col space-y-2 items-center" id="searchLoader" style="display: none;">
+                <div class="loader"></div>
+                <p class="font-Pixelify text-md text-black">Searching...</p>
+            </div>
+        </div>
+
+        <!--------TO HIDE--------
+        <div class="w-full h-fit p-2 grid grid-rows-2 bg-gradient-to-r from-red-500 to-blue-500 rounded-2xl items-center">
+            <div class="flex flex-row space-x-2 justify-start">
+                <p class="font-Pixelify text-[12px] text-center text-white font-bold xsm:text-[10px] md:text-sm"></p>
+                <p class="font-Pixelify text-[12px] text-center text-white font-bold xsm:text-[10px] md:text-sm"></p>
+            </div>
+            
+            <p class="font-Pixelify text-[12px] text-center text-white font-bold xsm:text-[10px] md:text-sm"></p>
+
+           <div class="flex flex-row space-x-2 justify-end">
+                <p class="font-Pixelify text-[12px] text-center text-white font-bold xsm:text-[10px] md:text-sm"></p>
+                <p class="font-Pixelify text-[12px] text-center text-white font-bold xsm:text-[10px] md:text-sm"></p>
+           </div>
+        </div>
+
+        <div class="w-full h-fit p-2 grid grid-rows-2 bg-gradient-to-r from-green-500 to-blue-500 rounded-2xl items-center">
+            <div class="flex flex-row space-x-2 justify-start">
+                <p class="font-Pixelify text-[12px] text-center text-white font-bold xsm:text-[10px] md:text-sm"></p>
+                <p class="font-Pixelify text-[12px] text-center text-white font-bold xsm:text-[10px] md:text-sm"></p>
+            </div>
+        
+            <p class="font-Pixelify text-[12px] text-center text-white font-bold xsm:text-[10px] md:text-sm"></p>
+        
+            <div class="flex flex-row space-x-2 justify-end">
+                <p class="font-Pixelify text-[12px] text-center text-white font-bold xsm:text-[10px] md:text-sm"></p>
+                <p class="font-Pixelify text-[12px] text-center text-white font-bold xsm:text-[10px] md:text-sm">/p>
+            </div>
+        </div>
+        !--------TO HIDE-------->
+
+    </div>
+</div>
+
+<!--For guest users-->
+<div class="w-screen h-screen flex justify-center items-center" id="guestHistory" style="display: none;">
+    <div class="w-fit h-fit bg-white rounded-lg p-4">
+        <h1 class="font-Pixelify text-sm text-center text-black">You are on Guest mode, Logged in to access history
+        </h1>
+    </div>
+</div>

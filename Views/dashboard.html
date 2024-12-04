@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--Web icon-->
+    <link rel="icon" href="/Images/Checker Logo.png">
+    <title>Online Checker - Dashboard</title>
+
+    <!--Tailwind library-->
+    <link rel="stylesheet" href="/CSS/style.css">
+
+    <!--Animation css-->
+    <link rel="stylesheet" href="/CSS/animation.css">
+
+    <!--Global Animation-->
+    <link rel="stylesheet" href="/CSS/global_style.css">
+
+    <!--Crypto Js library-->
+    <script src="/Min_Library/crypto-js/crypto-js.min.js"></script>
+
+    <!--Socket IO library-->
+    <script src="/Min_Library/socket.io/client-dist/socket.io.min.js"></script>
+</head>
+
+<body class="bg-gradient-to-r from-blue-200 to-blue-400 overflow-hidden">
+    <!--Global Chat div-->
+    <div class="absolute z-10 top-0 flex justify-center items-center w-screen h-screen backdrop-blur-sm z-2" id="modalGlobalChatPanel" style="display: none;">
+        <div class="bg-white rounded-lg w-[80%] mt-[-20rem] opacity-0 h-fit p-4 md:w-[60%] md:rounded-2xl lg:w-[40%]" id="modalGlobalChatContainer">
+            <div class="flex justify-between">
+                <div class="flex flex-col space-y-2 w-full">
+                    <h1 class="font-Pixelify text-center text-black text-lg">Global Chat</h1>
+                    <p class="font-Pixelify text-center text-black text-sm" id="playerConnected">Connected Players: 0</p>
+                </div>
+                
+                <div class="w-fit h-fit">
+                    <button class="cursor-pointer w-[10px] h-auto" onclick="modalStatus('modalGlobalChatPanel', 'modalGlobalChatContainer', 'none', null)">
+                        <img src="/Images/close button.png" alt="close icon">
+                    </button>
+                </div>
+            </div>
+    
+            <!--body-->
+            <div class="flex flex-col space-y-2 p-4 items-center">
+                <!--Message div-->
+                <div class="h-[15rem] w-full border-2 border-blue-500 rounded-lg flex flex-col space-y-4 overflow-y-auto overflow-x-hidden p-2 xsm:h-[10rem] md:h-[20rem] lg:h-[20rem]" id="parentContainerGlobal" style="scroll-behavior: smooth;">
+                    <div class="flex justify-start w-full h-auto">
+                        <!--------TO HIDE--------
+                        <div class="flex flex-col space-y-2 w-fit h-fit">
+                            <div class="flex flex-row space-x-2 items-center justify-start">
+                                <img alt="user profile" class="w-[2rem] h-[2rem] text-sm border-2 border-blue-500 rounded-full" src="">
+                                <p class="font-Pixelify text-black font-bold text-sm">Stuff</p>
+                            </div>
+                            <div class="w-[10rem] h-auto text-left bg-blue-500 rounded-2xl p-2 md:w-[15rem]">
+                                <p class="font-Pixelify text-white text-sm">Stuff</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-end w-full h-auto">
+                            <div class="flex flex-col space-y-2 w-fit h-fit">
+                                <div class="flex flex-row space-x-2 items-center justify-end">
+                                    <p class="font-Pixelify text-black font-bold text-sm">Hide Stuff</p><img alt="user profile" class="w-[2rem] h-[2rem] border-2 border-blue-500 rounded-full" src="">
+                                </div>
+                                <div class="w-[10rem] h-auto text-left bg-blue-700 rounded-2xl p-2 md:w-[15rem]">
+                                    <p class="font-Pixelify text-white text-sm"></p>
+                                </div>
+                            </div>
+                        </div>
+                        !--------TO HIDE-------->
+                    </div>
+                </div>
+
+                <!--Message input-->
+                <div class="w-full h-fit flex flex-col space-y-2">
+                    <div class="flex justify-between">
+                        <label for="messageInputGlobal" class="font-Pixelify text-sm text-black">Type your message</label>
+                        <p class="font-Pixelify text-sm text-black" id="messageInputGlobalCount">0/80</p>
+                    </div>
+    
+                    <div class="w-full flex justify-between space-x-2">
+                        <textarea type="text" id="messageInputGlobal" class="w-full h-[3rem] overflow-y-auto overflow-x-hidden border-x-0 border-t-0 border-b-2 border-black font-Pixelify text-center text-sm p-2 focus:outline-none" placeholder="Type your message" maxlength="80" oninput="typeInput('messageInputGlobal', 'messageInputGlobalCount', 80)"></textarea>
+
+                        <!--Send button-->
+                        <button class="w-auto h-auto font-Pixelify text-center text-sm rounded-2xl bg-blue-500 p-2 text-white hover:bg-blue-700" onclick="sendMessageGlobal()">Send Message</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Friend Chat div-->
+    <div class="absolute z-10 top-0 flex justify-center items-center w-screen h-screen backdrop-blur-sm z-2"
+        id="modalFriendChatPanel" style="display: none;">
+        <div class="bg-white rounded-lg w-[80%] mt-[-20rem] opacity-0 h-fit p-4 md:w-[60%] md:rounded-2xl lg:w-[40%]" id="modalFriendChatContainer">
+            <div class="flex justify-between">
+
+                <!--Back button when in friend message page-->
+                <div class="w-fit h-fit" id="friendBackBtn" style="display: none;">
+                    <button class="cursor-pointer w-[10px] h-auto" onclick="backToFront()">
+                        <img src="/Images/back button.png" alt="close icon">
+                    </button>
+                </div>
+
+                <!--Display message on top, title of the modal. This will be replace by friend name-->
+                <div class="w-full flex flex-col space-y-2">
+                    <h1 class="font-Pixelify text-center text-black text-lg" id="friendName">Friend Chat</h1>
+                    <p class="font-Pixelify text-center text-black text-sm" id="activeFriendStatus" style="display: none;">Active <span class="w-[10px] h-[10px] rounded-full bg-red-500 inline-block" id="friendStatus"></span></p>
+                    <p class="font-Pixelify text-center text-black text-sm xsm:text-[10px]" id="friendLobby_status"></p>
+                </div>
+    
+                <!--Close button for modal-->
+                <div class="w-fit h-fit">
+                    <button class="cursor-pointer w-[10px] h-auto" onclick="modalStatus('modalFriendChatPanel', 'modalFriendChatContainer', 'none', null); backToFront();">
+                        <img src="/Images/close button.png" alt="close icon">
+                    </button>
+                </div>
+            </div>
+
+            <!--Front panel-->
+            <div class="h-[15rem] w-full rounded-lg flex justify-center items-center overflow-hidden p-2 xsm:h-[10rem] md:h-[20rem] lg:h-[20rem]" id="frontFriendPanel">
+                <p class="font-Pixelify text-sm text-black" id="friendTextDisplay" style="display: inline;">You have no friends yet</p>
+
+                <!--If there is a friend list-->
+                <div class="w-full h-full flex flex-col space-y-2 overflow-x-hidden overflow-y-auto" id="friendList" style="display: none;"></div>
+            </div>
+    
+            <!--Friend Panel-->
+            <div class="flex flex-col space-y-2 p-4 items-center" id="friendChat" style="display: none;">
+                <div class="flex flex-col space-y-2 p-4 items-center w-full h-full" id="friendContainerHolder" style="scroll-behavior: smooth;"></div>
+    
+                <!--Message input-->
+                <div class="w-full h-fit flex flex-col space-y-2">
+                    <div class="flex justify-between">
+                        <label for="messageInputFriend" class="font-Pixelify text-sm text-black">Type your message</label>
+                        <p class="font-Pixelify text-sm text-black" id="messageInputFriendCount">0/80</p>
+                    </div>
+    
+                    <div class="w-full flex justify-between space-x-2">
+                        <textarea type="text" id="messageInputFriend"
+                            class="w-full h-[3rem] overflow-y-auto overflow-x-hidden border-x-0 border-t-0 border-b-2 border-black font-Pixelify text-center text-sm p-2 focus:outline-none"
+                            placeholder="Type your message" maxlength="80"
+                            oninput="typeInput('messageInputFriend', 'messageInputFriendCount', 80)"></textarea>
+    
+                        <!--Send button-->
+                        <button class="w-auto h-auto font-Pixelify text-center text-sm rounded-2xl bg-blue-500 p-2 text-white hover:bg-blue-700" onclick="sendMessagePrivate()">Send Message</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Loading div spinner-->
+    <div class="absolute top-0 backdrop-blur-sm w-screen h-screen flex justify-center items-center z-20"
+        id="loadingSpinner" style="display: none;">
+        <div class="flex flex-col space-y-2 items-center w-fit p-4 rounded-lg bg-white">
+            <span class="loader"></span>
+            <p class="font-Pixelify text-black text-lg" id="validateText">text</p>
+        </div>
+    </div>
+
+    <!--Invite div for custom-->
+    <div class="absolute top-0 backdrop-blur-sm w-screen h-screen flex justify-center items-center z-20" id="inviteCustomDiv" style="display: none;">
+        <div class="flex flex-col space-y-2 items-center w-fit p-4 rounded-lg bg-white mt-[-20rem] opacity-0" id="inviteCustomContainer">
+            <div class="flex flex-row space-x-4 items-center">
+                <img alt="user profile" class="w-[2rem] h-[2rem] text-sm border-2 border-blue-500 rounded-full" src="/Profile/defaultProfile.png" id="hostProfile">
+                <p class="font-Pixelify text-black text-sm" id="customHostName">Host inviting you in custom lobby</p>
+            </div>
+            <div class="flex flex-row space-x-4">
+                <button class="font-Pixelify text-sm w-fit h-auto p-2 text-white rounded-2xl bg-blue-500 hover:bg-blue-700" id="customButtonAccept">Accept</button>
+                <button class="font-Pixelify text-sm w-fit h-auto p-2 text-white rounded-2xl bg-red-500 hover:bg-red-700" id="customButtonDecline">Decline</button>
+            </div>
+
+            <!--Progress bar for loading-->
+            <div class="w-full h-auto">
+                <div class="bg-blue-500 rounded-2xl h-[5px] w-[100%]" id="customLoadingBar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!--Looking for match div on player vs player-->
+    <div class="absolute top-0 backdrop-blur-sm w-screen h-screen flex justify-center items-center z-20" id="matchDiv" style="display: none;">
+        <div class="flex flex-col space-y-2 items-center w-fit p-4 rounded-lg bg-white opacity-0 mt-[-20rem]" id="matchContainer">
+            <span class="loader"></span>
+            <p class="font-Pixelify text-black text-lg" id="validateText">Searching for match...</p>
+
+            <button class="w-[50%] h-fit font-Pixelify text-center text-sm bg-blue-500 p-2 rounded-2xl text-white hover:bg-blue-700"
+                onclick="modalStatus('matchDiv', 'matchContainer', 'none', null); cancel_findPlayerMatch()">Cancel</button>
+        </div>
+    </div>
+
+    <!--background image-->
+    <img src="/Images/Background.png" alt="background" class="w-[20rem] h-auto absolute right-0 bottom-0 z-0 xsm:w-[15rem]">
+
+    <!--Side panel, this is only applicable on mobile-->
+    <div class="absolute z-10 w-screen h-screen backdrop-blur-sm" id="menuModal" style="display: none;">
+        <div class="ml-[-10rem] opacity-0 w-[50%] h-[100vh] bg-white flex flex-col space-y-4 p-4" id="menuSubModal">
+            <button class="font-Pixelify text-center text-lg text-black border-0 rounded-2xl hover:bg-blue-500 hover:text-white" onclick="navigatePage('/home.html'); modalStatus('menuModal', 'menuSubModal', 'none')">Home</button>
+            <button class="font-Pixelify text-center text-lg text-black border-0 rounded-2xl hover:bg-blue-500 hover:text-white" onclick="navigatePage('/profile.html'); modalStatus('menuModal', 'menuSubModal', 'none')">Profile</button>
+            <button class="font-Pixelify text-center text-lg text-black border-0 rounded-2xl hover:bg-blue-500 hover:text-white" onclick="navigatePage('/watchLive.html'); modalStatus('menuModal', 'menuSubModal', 'none')">Watch Live</button>
+            <button class="font-Pixelify text-center text-lg text-black border-0 rounded-2xl hover:bg-blue-500 hover:text-white" onclick="navigatePage('/leaderboard.html'); modalStatus('menuModal', 'menuSubModal', 'none');">Leaderboard</button>
+            <button class="font-Pixelify text-center text-lg text-black border-0 rounded-2xl hover:bg-blue-500 hover:text-white" onclick="navigatePage('/friendList.html'); modalStatus('menuModal', 'menuSubModal', 'none'); friendList_view(); closeRequestNotif()">Friendlist <span class="rounded-full bg-red-500 font-Pixelify text-white text-sm p-1" id="m_notifMsg_friendRequest"
+                style="display: none;">0</span></button>
+            <button class="font-Pixelify text-center text-lg text-black border-0 rounded-2xl hover:bg-blue-500 hover:text-white" onclick="navigatePage('/findFriend.html'); modalStatus('menuModal','menuSubModal', 'none'); findFriend_view()">Find friend</button>
+            <button class="font-Pixelify text-center text-lg text-black border-0 rounded-2xl hover:bg-blue-500 hover:text-white" onclick="navigatePage('/history.html'); modalStatus('menuModal', 'menuSubModal', 'none')">History</button>
+            <button class="font-Pixelify text-center text-lg text-black border-0 rounded-2xl hover:bg-blue-500 hover:text-white" onclick="navigatePage('/setting.html'); modalStatus('menuModal', 'menuSubModal', 'none')">Settings</button>
+            <button class="font-Pixelify text-center text-lg text-black border-0 rounded-2xl hover:bg-blue-500 hover:text-white" onclick="logout()">Log out</button>
+        </div>
+
+        <!--This one div is only for closing nav-->
+        <div class="mr-0 w-[50%] h-screen bg-transparent" onclick="modalStatus('menuModal', 'menuSubModal', 'none', null)"></div>
+    </div>
+
+    <!--Content-->
+    <div class="absolute z-2 w-screen h-screen">
+        <!--Nav hamburger for mobile only-->
+        <div class="absolute p-4 w-auto h-auto lg:hidden">
+            <div class="w-[4rem] h-auto flex flex-col space-y-2 cursor-pointer" onclick="modalStatus('menuModal', 'menuSubModal', 'flex', 'sideBar_animation')">
+                <div class="w-full h-[10px] bg-blue-700"></div>
+                <div class="w-full h-[10px] bg-blue-700"></div>
+                <div class="w-full h-[10px] bg-blue-700"></div>
+            </div>
+        </div>
+
+        <!--This one is display on the desktop/laptop-->
+        <div class="absolute top-0 justify-evenly w-screen h-auto hidden lg:flex">
+            <button class="w-full h-fit font-Pixelify text-center text-sm bg-blue-500 p-2 text-white hover:bg-blue-700" onclick="navigatePage('/home.html')" id="homeBtn">Home</button>
+            <button class="w-full h-fit font-Pixelify text-center text-sm bg-blue-500 p-2 text-white hover:bg-blue-700" onclick="navigatePage('/profile.html')" id="profileBtn">Profile</button>
+            <button class="w-full h-fit font-Pixelify text-center text-sm bg-blue-500 p-2 text-white hover:bg-blue-700" onclick="navigatePage('/watchLive.html')" id="watchLiveBtn">Watch Live</button>
+            <button class="w-full h-fit font-Pixelify text-center text-sm bg-blue-500 p-2 text-white hover:bg-blue-700" onclick="navigatePage('/leaderboard.html');" id="leaderboardBtn">Leaderboard</button>
+            <button class="w-full h-fit font-Pixelify text-center text-sm bg-blue-500 p-2 text-white hover:bg-blue-700" onclick="navigatePage('/friendList.html'); friendList_view(); closeRequestNotif()" id="friendListBtn">Friendlist <span class="rounded-full bg-red-500 font-Pixelify text-white text-sm p-1" id="notifMsg_friendRequest"
+                style="display: none;">0</span></button>
+            <button class="w-full h-fit font-Pixelify text-center text-sm bg-blue-500 p-2 text-white hover:bg-blue-700" onclick="navigatePage('/findFriend.html'); findFriend_view()" id="findFriendBtn">Find friend</button>
+            <button class="w-full h-fit font-Pixelify text-center text-sm bg-blue-500 p-2 text-white hover:bg-blue-700" onclick="navigatePage('/history.html')" id="historyBtn">History</button>
+            <button class="w-full h-fit font-Pixelify text-center text-sm bg-blue-500 p-2 text-white hover:bg-blue-700" onclick="navigatePage('/setting.html')" id="settingBtn">Settings</button>
+            <button class="w-full h-fit font-Pixelify text-center text-sm bg-blue-500 p-2 text-white hover:bg-blue-700" onclick="logout()">Log out</button>
+        </div>
+
+        <!--This is the content div for Ajax-->
+        <div class="w-screen h-screen" id="contentDiv"></div>
+
+        <!--This is for chatting-->
+        <div class="absolute bottom-0 flex justify-evenly w-screen h-auto">
+            <button class="w-full h-fit font-Pixelify text-center text-sm bg-blue-500 p-2 text-white hover:bg-blue-700" onclick="modalStatus('modalGlobalChatPanel', 'modalGlobalChatContainer', 'flex', 'modal_animation'); restartStatus()">Global Chat <span class="rounded-full bg-red-500 font-Pixelify text-white text-sm p-1" id="notifMsg_global" style="display: none;">0</span></button>
+            <button class="w-full h-fit font-Pixelify text-center text-sm bg-blue-500 p-2 text-white hover:bg-blue-700" onclick="modalStatus('modalFriendChatPanel', 'modalFriendChatContainer', 'flex', 'modal_animation'); checkFriend(); restartStatus_private()">Friends Chat <span class="rounded-full bg-red-500 font-Pixelify text-white text-sm p-1" id="notifMsg_friend"
+                style="display: none;">0</span></button>
+        </div>
+    </div>
+    
+    <p>&nbsp;</p>
+</body>
+
+</html>
+
+<!--Script for socket io-->
+<script src="/Global_SocketIO/connection_socket.js"></script>
+<script src="/Global_SocketIO/friend_socket.js"></script>
+<script src="/Global_SocketIO/message_socket.js"></script>
+
+<!--Script for functionalities-->
+<script src="/Global_JS/globalJS.js"></script>
+<script src="/JS/functionDash.js"></script>
+<script src="/JS/friendFunction.js"></script>
+<script src="/JS/historyFunction.js"></script>
+<script src="/JS/leaderboardFunction.js"></script>
+<script src="/JS/visitFriend.js"></script>
+<script src="/JS/watchLiveFunction.js"></script>

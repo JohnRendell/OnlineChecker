@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--Web icon-->
+    <link rel="icon" href="/Images/Checker Logo.png">
+    <title>Checker Mode</title>
+
+    <!--Tailwind library-->
+    <link rel="stylesheet" href="/CSS/style.css">
+
+    <!--Animation css-->
+    <link rel="stylesheet" href="/CSS/animation.css">
+
+    <!--Global Animation-->
+    <link rel="stylesheet" href="/CSS/global_style.css">
+
+    <!--Checker Animation-->
+    <link rel="stylesheet" href="/CSS/checkerAnim.css">
+
+    <!--Crypto Js library-->
+    <script src="/Min_Library/crypto-js/crypto-js.min.js"></script>
+
+    <!--Socket IO library-->
+    <script src="/Min_Library/socket.io/client-dist/socket.io.min.js"></script>
+</head>
+
+<body class="bg-gradient-to-r from-blue-200 to-blue-400 overflow-hidden">
+    <!--Surrender Panel-->
+    <div class="absolute top-0 backdrop-blur-sm w-screen h-screen flex justify-center items-center z-20" id="surrenderModal" style="display: none;">
+        <div class="flex flex-col space-y-2 items-center w-fit p-4 rounded-lg bg-white mt-[-20rem] opacity-0" id="surrenderContainer">
+            <p class="font-Pixelify text-black text-lg">You want to surrender?</p>
+            <div class="flex flex-row space-x-2">
+                <button class="font-Pixelify text-center text-sm text-white bg-red-500 hover:bg-red-700 w-fit h-fit p-2 rounded-2xl" onclick="modalStatus('surrenderModal', 'surrenderContainer', 'none', null); surrenderPanel()">Yes</button>
+
+                <button class="font-Pixelify text-center text-sm text-white bg-blue-500 hover:bg-blue-700 w-fit h-fit p-2 rounded-2xl" onclick="modalStatus('surrenderModal', 'surrenderContainer', 'none', null)">No</button>
+            </div>
+        </div>
+    </div>
+
+    <!--Promoted panel-->
+    <div class="absolute top-0 backdrop-blur-sm w-screen h-screen flex justify-center items-center z-20" id="promotedModal" style="display: none;">
+        <div class="flex flex-col space-y-2 items-center w-fit p-4 rounded-lg bg-white mt-[-20rem] opacity-0"
+            id="promotedContainer">
+            <img src="/Images/Crown.png" alt="" class="w-[5rem] h-auto">
+            <p class="font-Pixelify text-black text-lg" id="promoteLabel">{user's} piece promoted</p>
+        </div>
+    </div>
+
+    <!--Disconnected Panel-->
+    <div class="absolute top-0 backdrop-blur-sm w-screen h-screen flex justify-center items-center z-20" id="disconnectModal" style="display: none;">
+        <div class="flex flex-col space-y-2 items-center w-[80%] p-4 rounded-lg bg-white mt-[-20rem] opacity-0 lg:w-[40%]"
+            id="disconnectContainer">
+            <h1 class="font-Pixelify text-black text-lg text-center" id="disconnect-text-display">Game Terminated, { user } disconnected</h1>
+            <p class="font-Pixelify text-black text-sm text-center" id="promoteLabel">Players will now back at dashboard, no trophy obtained or reduced</p>
+        </div>
+    </div>
+
+    <!--Surrender notif panel-->
+    <div class="absolute top-0 backdrop-blur-sm w-screen h-screen flex justify-center items-center z-20"
+        id="surrenderNotifModal" style="display: none;">
+        <div class="flex flex-col space-y-2 items-center w-[80%] p-4 rounded-lg bg-white mt-[-20rem] opacity-0 lg:w-[40%]" id="surrenderNotifContainer">
+            <h1 class="font-Pixelify text-black text-lg text-center" id="surrenderNotif-text-display">{ User } surrendered</h1>
+            <p class="font-Pixelify text-black text-sm text-center" id="win-status"></p>
+            <p class="font-Pixelify text-black text-sm text-center" id="win-status-time-display">Time Remaining: 00:00</p>
+            <p class="font-Pixelify text-black text-sm text-center" id="win-status-trophy"></p>
+
+            <button class="font-Pixelify text-center text-sm text-white bg-blue-500 hover:bg-blue-700 w-fit h-fit p-2 rounded-2xl" onclick="dashboard();">Go back to dashboard</button>
+        </div>
+    </div>
+
+    <!--Win/lose notif panel-->
+    <div class="absolute top-0 backdrop-blur-sm w-screen h-screen flex justify-center items-center z-20"
+        id="win_loseNotifModal" style="display: none;">
+        <div class="flex flex-col space-y-2 items-center w-[80%] p-4 rounded-lg bg-white mt-[-20rem] opacity-0 lg:w-[40%]"
+            id="win_loseNotifContainer">
+            <h1 class="font-Pixelify text-black text-lg text-center" id="win_lose-text-display">{ User } won
+            </h1>
+            <p class="font-Pixelify text-black text-sm text-center" id="win_lose-time-display">Time Remaining: 00:00</p>
+            <p class="font-Pixelify text-black text-sm text-center" id="win_lose-time-trophy"></p>
+    
+            <button
+                class="font-Pixelify text-center text-sm text-white bg-blue-500 hover:bg-blue-700 w-fit h-fit p-2 rounded-2xl"
+                onclick="dashboard();">Go back to dashboard</button>
+        </div>
+    </div>
+
+    <!--Game Chat-->
+    <div class="absolute top-0 backdrop-blur-sm w-screen h-screen flex justify-center items-center z-20" id="gameChatModal" style="display: none;">
+        <div class="flex flex-col space-y-2 items-center w-fit p-4 rounded-lg bg-white mt-[-20rem] opacity-0 xsm:w-[17rem] xsm:h-[25rem]" id="gameChatContainer">
+            <div class="flex justify-between w-full">
+                <div class="w-full">
+                    <h1 class="font-Pixelify text-black text-lg text-center">Game Chat</h1>
+                </div>
+                <div class="w-fit h-fit">
+                    <button class="cursor-pointer w-[10px] h-auto"
+                        onclick="modalStatus('gameChatModal', 'gameChatContainer', 'none', null); resetCount()">
+                        <img src="/Images/close button.png" alt="close icon">
+                    </button>
+                </div>
+            </div>
+
+            <!--Display profile for mobile-->
+            <div class="flex flex-col space-y-2 items-center lg:hidden">
+                <div class="flex flex-row space-x-4 w-fit h-fit p-2 xsm:flex-col xsm:space-y-2">
+                    <!--You-->
+                    <div class="flex flex-col space-y-2 items-center bg-white border-2 border-blue-500 rounded-lg w-auto h-auto p-4 xsm:hidden">
+                        <!--Profile-->
+                        <img src="/Profile/defaultProfile.png" alt="user profile" class="border-2 border-blue-500 rounded-full w-[3rem] h-[3rem]" id="myourProfileData">
+
+                        <div class="flex flex-col space-y-2">
+                            <!--Username-->
+                            <h1 class="font-Pixelify text-md text-center text-blue-500" id="myourUserData">no data</h1>
+                            
+                            <!--Trophy-->
+                            <p class="font-Pixelify text-sm text-center text-blue-500" id="myourTrophyData">Trophy: no data</p>
+                        </div>
+                    </div>
+            
+                    <!--Opponent-->
+                    <div class="flex flex-col space-y-2 items-center bg-white rounded-lg w-auto h-auto p-4 xsm:p-2 xsm:flex-row xsm:space-x-2">
+                        <!--Profile-->
+                        <img src="/Profile/defaultProfile.png" alt="user profile" class="border-2 border-blue-500 rounded-full w-[3rem] h-[3rem]" id="mopponentProfileData">
+
+                        <div class="flex flex-col space-y-2">
+                            <!--Username-->
+                            <h1 class="font-Pixelify text-md text-center text-blue-500" id="mopponentUserData">no data</h1>
+                            
+                            <!--Trophy-->
+                            <p class="font-Pixelify text-sm text-center text-blue-500" id="mopponentTrophyData">Trophy: no data</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Conversation div-->
+            <div class="w-[15rem] h-[10rem] border-2 border-blue-500 rounded-2xl p-4 flex flex-col overflow-x-hidden overflow-y-auto space-y-2 lg:w-[20rem] lg:h-[15rem]" id="gameMessageConversation" style="scroll-behavior: smooth;"></div>
+
+            <!--Message input-->
+            <div class="w-full h-fit flex flex-col space-y-2">
+                <div class="flex justify-between">
+                    <label for="messageInputGame" class="font-Pixelify text-sm text-black">Type your message</label>
+                    <p class="font-Pixelify text-sm text-black" id="messageInputGameCount">0/80</p>
+                </div>
+            
+                <div class="w-full h-fit items-center flex justify-between space-x-2">
+                    <textarea type="text" id="messageInputGame" class="w-full h-[3rem] overflow-y-auto overflow-x-hidden border-x-0 border-t-0 border-b-2 border-black font-Pixelify text-center text-sm p-2 focus:outline-none xsm:h-[2rem]" placeholder="Type your message" maxlength="80"
+                        oninput="typeInput('messageInputGame', 'messageInputGameCount', 80)"></textarea>
+            
+                    <!--Send button-->
+                    <button class="w-auto h-auto font-Pixelify text-center text-sm rounded-2xl bg-blue-500 p-2 text-white hover:bg-blue-700 xsm:text-[10px]" onclick="gameMessage()">Send Message</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Loading div spinner-->
+    <div class="absolute top-0 backdrop-blur-sm w-screen h-screen flex justify-center items-center z-20" id="loadingSpinner"
+        style="display: none;">
+        <div class="flex flex-col space-y-2 items-center w-fit p-4 rounded-lg bg-white">
+            <span class="loader"></span>
+            <p class="font-Pixelify text-black text-lg" id="validateText">text</p>
+        </div>
+    </div>
+
+    <!--Content-->
+    <div class="absolute z-2 w-screen h-screen flex flex-col space-y-2 justify-center items-center">
+        <!--Surrender button-->
+        <div class="absolute top-0 justify-evenly w-screen h-auto flex">
+            <button class="w-full h-fit font-Pixelify text-center text-sm bg-blue-500 p-2 text-white hover:bg-blue-700" onclick="modalStatus('surrenderModal', 'surrenderContainer', 'flex', 'modal_animation')" id="playerSurrBtn" style="display: block;">Surrender</button>
+
+            <!--Going back to dashboard, this is for spectator-->
+            <button class="w-full h-fit font-Pixelify text-center text-sm bg-blue-500 p-2 text-white hover:bg-blue-700"
+                onclick="dashboard()" id="spectatorBtn" style="display: none;">Go to Dashboard</button>
+        </div>
+
+        <!--Game timer-->
+        <div class="bg-white w-[20rem] h-auto p-2 rounded-lg flex flex-col space-y-2 xsm:w-[10rem]">
+            <h1 class="font-Pixelify text-blue-500 text-lg text-center">Timer:</h1>
+            <p class="font-Pixelify text-blue-500 text-sm text-center" id="checkerTime">00:00</p>
+        </div>
+
+        <!--Turn indicator-->
+        <div class="bg-white w-[20rem] h-auto p-2 rounded-lg flex flex-row space-x-2 items-center justify-center xsm:w-[10rem]">
+            <img src="/Profile/defaultProfile.png" alt="user profile" class="border-2 border-blue-500 rounded-full w-[2rem] h-[2rem]" id="userTurnProfile">
+            <p class="font-Pixelify text-blue-500 text-sm text-center" id="userTurnIndicator">User turn</p>
+        </div>
+
+        <!--Main content-->
+       <div class="w-screen h-[60vh] flex justify-center items-center flex-col space-y-2 xsm:h-[50vh] md:h-[70vh] lg:flex-row lg:space-x-10 lg:h-[60vh]">
+            <div class="hidden flex-col space-y-2 items-center lg:flex">
+                <!--Display profile-->
+                <div class="flex flex-row space-x-4 w-fit h-fit p-2">
+                    <!--You-->
+                    <div class="flex flex-col space-y-2 items-center bg-white border-2 border-blue-500 rounded-lg w-auto h-auto p-4">
+                        <!--Username-->
+                        <h1 class="font-Pixelify text-lg text-center text-blue-500" id="yourUserData">no data</h1>
+            
+                        <!--Profile-->
+                        <img src="/Profile/defaultProfile.png" alt="user profile"
+                            class="border-2 border-blue-500 rounded-full w-[6rem] h-[6rem] xsm:w-[4rem] xsm:h-[4rem]"
+                            id="yourProfileData">
+            
+                        <!--Trophy-->
+                        <p class="font-Pixelify text-sm text-center text-blue-500" id="yourTrophyData">Trophy: no data</p>
+                    </div>
+            
+                    <!--Opponent-->
+                    <div class="flex flex-col space-y-2 items-center bg-white rounded-lg w-auto h-auto p-4">
+                        <!--Username-->
+                        <h1 class="font-Pixelify text-lg text-center text-blue-500" id="opponentUserData">no data</h1>
+            
+                        <!--Profile-->
+                        <img src="/Profile/defaultProfile.png" alt="user profile"
+                            class="border-2 border-blue-500 rounded-full w-[6rem] h-[6rem] xsm:w-[4rem] xsm:h-[4rem]"
+                            id="opponentProfileData">
+            
+                        <!--Trophy-->
+                        <p class="font-Pixelify text-sm text-center text-blue-500" id="opponentTrophyData">Trophy: no data</p>
+                    </div>
+                </div>
+            </div>
+
+            <!--Checker board-->
+            <div class="grid grid-cols-8 grid-rows-8 w-[80%] h-[70%] xsm:w-[90%] xsm:h-[80%] md:w-[60%] md:h-[50%] lg:w-[30%] lg:h-[80%]" id="checkerBoard">
+                <!--------TO HIDE--------
+                <div class="bg-black"></div>
+                !--------TO HIDE-------->
+            </div>
+       </div>
+
+        <!--Chat button-->
+        <div class="absolute bottom-0 justify-evenly w-screen h-auto flex">
+            <button class="w-full h-fit font-Pixelify text-center text-sm bg-blue-500 p-2 text-white hover:bg-blue-700 lg:w-fit lg:p-2 lg:m-2 lg:rounded-2xl" onclick="modalStatus('gameChatModal', 'gameChatContainer', 'flex', 'modal_animation')">Game Chat <span class="rounded-full bg-red-500 font-Pixelify text-white text-sm p-1" id="notifMsg_game"
+                style="display: none;">0</span></button>
+        </div>
+    </div>
+
+    <p>&nbsp;</p>
+</body>
+
+</html>
+
+<!--Script for socket io-->
+<script src="/Min_Checker_socketIO/checker_socket.min.js"></script>
+<script src="/Min_Checker_socketIO/checker_spectatorSocket.min.js"></script>
+
+<!--Script for functionalities-->
+<script src="/Min_Global_JS/globalJS.min.js"></script>
+<script src="/MinJs/checkerFunction.min.js"></script>
+<script src="/MinJs/checkerLogic.min.js"></script>

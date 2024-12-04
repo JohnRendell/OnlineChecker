@@ -1,0 +1,24 @@
+<!--Logged in div-->
+<div class="w-screen h-screen flex justify-center items-center" id="loginProfile" style="display: flex;">
+    <div class="w-fit h-fit flex flex-col space-y-4 p-4 rounded-2xl bg-white">
+        <!--Profile Image-->
+        <img src="" alt="User Profile" id="userProfile" class="w-[10rem] h-[10rem] border-2 rounded-full border-blue-500">
+    
+        <!--Button for changing profile-->
+        <label for="changeProfile" class="font-Pixelify text-sm text-center text-white bg-blue-500 p-2 rounded-2xl cursor-pointer" id="profile_allowChangeBtn" onclick="uploadProfile()">Change Profile</label>
+        <input type="file" id="changeProfile" accept="image/*" style="display: none;">
+    
+        <!--Display username-->
+        <p class="font-Pixelify text-center text-blue-700 text-sm" id="userProfileName">no data</p>
+    
+        <!--Display trophy-->
+        <p class="font-Pixelify text-center text-blue-700 text-sm" id="userTrophy">Trophies: no data</p>
+    </div>
+</div>
+
+<!--For guest users-->
+<div class="w-screen h-screen flex justify-center items-center" id="guestProfile" style="display: none;">
+    <div class="w-fit h-fit bg-white rounded-lg p-4">
+        <h1 class="font-Pixelify text-sm text-center text-black">You are on Guest mode, Logged in to access profile</h1>
+    </div>
+</div>

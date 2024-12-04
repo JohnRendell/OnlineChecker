@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--Web icon-->
+    <link rel="icon" href="/Images/Checker Logo.png">
+    <title>Online Checker</title>
+
+    <!--Tailwind library-->
+    <link rel="stylesheet" href="/CSS/style.css">
+
+    <!--CSS animations-->
+    <link rel="stylesheet" href="/CSS/animation.css">
+
+    <!--Get the crypto js library-->
+    <script src="/Min_Library/crypto-js/crypto-js.min.js"></script>
+</head>
+<body class="bg-gradient-to-r from-red-500 to-red-400 overflow-hidden">
+
+    <!--About Modal-->
+    <div class="absolute top-0 backdrop-blur-sm w-screen h-screen flex justify-center items-center" id="modalAboutPanel" style="display: none;">
+        <!--Main container-->
+        <div class="-mt-[20rem] opacity-0 bg-white w-[80%] h-fit p-4 rounded-lg md:w-[60%] lg:w-[30%]" id="modalAboutContainer">
+            <!--Header-->
+            <div class="flex justify-between">
+                <div class="w-full h-fit">
+                    <h1 class="font-Pixelify text-black text-center text-lg">About</h1>
+                </div>
+                <button class="cursor-pointer w-[10px] h-auto" onclick="modalStatus('modalAboutPanel', 'modalAboutContainer', 'none', null)">
+                    <img src="/Images/close button.png" alt="close icon">
+                </button>
+            </div>
+
+            <!--body-->
+            <div class="flex flex-col space-y-2 items-center">
+                <p class="font-Pixelify text-sm text-black text-center">Created by John Rendell Catuiza</p>
+                <a class="font-Pixelify text-sm text-blue-500 underline text-center" href="#" target="_blank">Github
+                    Repository</a>
+            </div>
+        </div>
+    </div>
+
+    <!--Play Modal-->
+    <div class="absolute top-0 backdrop-blur-sm w-screen h-screen flex justify-center items-center" id="modalPlayPanel"
+        style="display: none;">
+        <!--Main container-->
+        <div class="-mt-[20rem] opacity-0 bg-white w-[80%] h-fit p-4 rounded-lg md:w-[60%] lg:w-[30%]"
+            id="modalPlayContainer">
+            <!--Header-->
+            <div class="flex justify-between">
+                <div class="w-full h-fit">
+                    <h1 class="font-Pixelify text-black text-center text-lg">Login</h1>
+                </div>
+                <button class="cursor-pointer w-[10px] h-auto"
+                    onclick="modalStatus('modalPlayPanel', 'modalPlayContainer', 'none', null)">
+                    <img src="/Images/close button.png" alt="close icon">
+                </button>
+            </div>
+    
+            <!--body-->
+            <div class="flex flex-col space-y-[4rem] items-center xsm:space-y-2">
+                <!--Username-->
+                <div class="w-full h-fit flex flex-col space-y-2">
+                    <div class="flex justify-between">
+                        <label for="loginInputUser" class="font-Pixelify text-sm text-black">Username</label>
+                        <p class="font-Pixelify text-sm text-black" id="loginUserInputCount">0/10</p>
+                    </div>
+
+                    <input type="text" id="loginInputUser" class="border-x-0 border-t-0 border-b-2 border-black font-Pixelify text-center text-sm p-2 focus:outline-none" placeholder="Type your Username" maxlength="10" oninput="typeInput('loginInputUser', 'loginUserInputCount')">
+                </div>
+
+                <!--Password-->
+                <div class="w-full h-fit flex flex-col space-y-2">
+                    <div class="flex justify-between">
+                        <label for="loginInputPass" class="font-Pixelify text-sm text-black">Password</label>
+                        <p class="font-Pixelify text-sm text-black" id="loginPassInputCount">0/10</p>
+                    </div>
+                
+                    <div class="w-full flex justify-between space-x-2">
+                        <input type="password" id="loginInputPass" class="w-full border-x-0 border-t-0 border-b-2 border-black font-Pixelify text-center text-sm p-2 focus:outline-none" placeholder="Type your password" maxlength="10" oninput="typeInput('loginInputPass', 'loginPassInputCount')">
+
+                        <button class="cursor-pointer w-[20px] h-auto" onclick="showInputPass('loginInputPass', 'loginEye')">
+                            <img src="/Images/Password eye.png" alt="eye icon" id="loginEye">
+                        </button>
+                    </div>
+                </div>
+
+                <!--For error text-->
+                <div class="w-full h-[2rem] flex justify-center items-center">
+                    <p class="font-Pixelify text-sm text-red-500" id="error-text-p"></p>
+                </div>
+
+                <!--For buttons-->
+                <div class="flex flex-col space-y-2 md:inline md:space-x-4">
+                    <button class="font-Pixelify text-sm underline text-black cursor-pointer" onclick="login()">Proceed</button>
+                    <button class="font-Pixelify text-sm underline text-black cursor-pointer" onclick="signin()">Create Account</button>
+                    <button class="font-Pixelify text-sm underline text-black cursor-pointer" onclick="guestMode()">Log in as Guest</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Loading div spinner-->
+    <div class="absolute top-0 backdrop-blur-sm w-screen h-screen flex justify-center items-center" id="loadingSpinner" style="display: none;">
+        <div class="flex flex-col space-y-2 items-center w-fit p-4 rounded-lg bg-white">
+            <span class="loader"></span>
+            <p class="font-Pixelify text-black text-lg">Validating...</p>
+        </div>
+    
+        <style>
+            .loader {
+                width: 48px;
+                height: 48px;
+                border: 5px solid red;
+                border-bottom-color: transparent;
+                border-radius: 50%;
+                display: inline-block;
+                box-sizing: border-box;
+                animation: rotation 1s linear infinite;
+            }
+    
+            @keyframes rotation {
+                0% {
+                    transform: rotate(0deg);
+                }
+    
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+        </style>
+    </div>
+    
+    <!--Content-->
+    <div class="mt-[10rem] w-full h-full flex flex-col space-y-[2rem] items-center md:mt-[15rem] lg:mt-[10rem]">
+        <!--Title Page-->
+        <h1 class="font-Pixelify text-2xl text-white text-center md:text-[2rem]">Checker Multiplayer</h1>
+
+        <!--Buttons-->
+        <div class="flex flex-col items-center space-y-2">
+            <button class="font-Pixelify text-lg text-white text-center hover:underline md:text-2xl lg:text-lg" onclick="modalStatus('modalPlayPanel', 'modalPlayContainer', 'flex', 'modal_animation')">Play</button>
+            <button class="font-Pixelify text-lg text-white text-center hover:underline md:text-2xl lg:text-lg" onclick="modalStatus('modalAboutPanel', 'modalAboutContainer', 'flex', 'modal_animation')">About</button>
+        </div>
+    </div>
+</body>
+</html>
+
+<!--Script for functionalities-->
+<script src="MinJS/function.min.js"></script>
+<script src="MinJS/loginAccount.min.js"></script>
+<script src="MinJS/signinAccount.min.js"></script>
+<script src="/Min_Global_JS/globalJS.min.js"></script>

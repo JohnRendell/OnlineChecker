@@ -1,0 +1,40 @@
+/*Scroll bar style*/
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #bfdbfe;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #1d4ed8;
+    border-radius: 10px;
+}
+
+/* For loaders*/
+.loader {
+    width: 48px;
+    height: 48px;
+    border: 5px solid red;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

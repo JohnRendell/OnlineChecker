@@ -1,0 +1,80 @@
+<!--Panel for open lobby-->
+<div class="absolute z-10 top-0 flex justify-center items-center w-screen h-screen backdrop-blur-sm z-2"
+    id="modalOpenLobbyPanel" style="display: none;">
+    <div class="bg-white rounded-lg w-[80%] mt-[-20rem] opacity-0 h-fit p-4 border-2 border-blue-500 md:w-[60%] md:rounded-2xl lg:w-[40%]" id="modalOpenLobbyContainer">
+        <div class="flex flex-col space-y-2 items-center">
+            <h1 class="font-Pixelify text-black text-lg">Ongoing lobby</h1>
+            <p class="font-Pixelify text-black text-sm" id="lobbyOpenName">lobby-123</p>
+        </div>
+
+        <!--body-->
+        <div class="flex flex-col space-y-2 items-center">
+            <!--Display profiles-->
+            <div class="flex flex-row space-x-4 mt-4">
+                <div class="flex flex-col space-y-2 items-center border-2 border-blue-500 rounded-lg w-auto h-auto p-4">
+                    <!--Username-->
+                    <h1 class="font-Pixelify text-lg text-center text-blue-500" id="hostUsername">no data</h1>
+                
+                    <!--Profile-->
+                    <img src="/Profile/defaultProfile.png" alt="user profile"
+                        class="border-2 border-blue-500 rounded-full w-[6rem] h-[6rem] xsm:w-[4rem] xsm:h-[4rem]"
+                        id="hostProfileData">
+                
+                    <!--Trophy-->
+                    <p class="font-Pixelify text-sm text-center text-blue-500" id="hostTrophyData">Trophy: no data</p>
+                </div>
+
+                <div class="flex flex-col space-y-2 items-center border-2 border-blue-500 rounded-lg w-auto h-auto p-4">
+                    <!--Username-->
+                    <h1 class="font-Pixelify text-lg text-center text-blue-500" id="invitedUsername">no data</h1>
+                
+                    <!--Profile-->
+                    <img src="/Profile/defaultProfile.png" alt="user profile"
+                        class="border-2 border-blue-500 rounded-full w-[6rem] h-[6rem] xsm:w-[4rem] xsm:h-[4rem]"
+                        id="invitedProfileData">
+                
+                    <!--Trophy-->
+                    <p class="font-Pixelify text-sm text-center text-blue-500" id="invitedTrophyData">Trophy: no data</p>
+                </div>
+            </div>
+
+            <div class="w-full flex flex-row space-x-4 justify-center" id="buttonWrapperLobby">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="w-full h-full flex justify-center items-center">
+    <div class="flex flex-col space-y-4 w-full h-auto items-center">
+        <!--Search bar for looking for player-->
+        <input type="text" placeholder="Search for players"
+            class="font-Pixelify text-sm text-black rounded-2xl border-2 border-blue-500 w-[50%] h-fit p-2 focus:outline-none"
+            id="search_lobby" oninput="search_player_live()">
+
+        <!--Container for list of all lobbies available-->
+        <div
+            class="w-[80%] h-[30rem] bg-white flex flex-col space-y-2 rounded-2xl p-4 overflow-hidden xsm:h-[15rem] md:h-[40rem] lg:h-[25rem]">
+            <!--Title-->
+            <div class="w-full h-fit flex flex-col space-y-2">
+                <h1 class="font-Pixelify text-lg text-black text-center">Live Lobbies (Click one to watch)</h1>
+                <p class="font-Pixelify text-sm text-black text-center" id="lobbyCount">Total Lobbies: 0</p>
+            </div>
+
+            <!--Custom table for watch live-->
+            <div class="border-2 border-blue-500 rounded-2xl w-full h-full">
+                <!--table head-->
+                <div class="grid grid-cols-2 divide-x-2 divide-blue-500 border-b-2 border-b-blue-500 w-full">
+                    <h2 class="font-Pixelify text-black font-bold text-center text-sm">Lobby Type</h2>
+                    <h2 class="font-Pixelify text-black font-bold text-center text-sm">Lobby ID</h2>
+                </div>
+
+                <!--table body-->
+                <div class="p-2 xsm:p-0">
+                    <div class="flex flex-col space-y-2 w-full h-[18rem] px-2 py-0 overflow-x-hidden overflow-y-auto xsm:h-[4rem] md:h-[30rem] lg:h-[15rem]" id="lobbyContainer">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

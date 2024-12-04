@@ -1,0 +1,66 @@
+<!--Settings for logged in users-->
+<div class="w-screen h-screen flex justify-center items-center" id="loginSetting" style="display: flex;">
+    <div class="w-full h-[80%] p-4 overflow-x-hidden overflow-y-auto mt-[3rem] xsm:mt-[3rem] md:w-[80%] lg:w-[50%] lg:mt-[1rem]">
+        <div class="w-full h-fit bg-white rounded-lg p-4">
+            <h1 class="font-Pixelify text-center text-lg text-black font-bold">Change Account</h1>
+    
+            <!--Content-->
+            <div class="flex flex-col space-y-[4rem] items-center xsm:space-y-2">
+                <!--Password-->
+                <div class="w-full h-fit flex flex-col space-y-2">
+                    <div class="flex justify-between">
+                        <label for="settingInputPass" class="font-Pixelify text-sm text-black">Password</label>
+                        <p class="font-Pixelify text-sm text-black" id="settingInputPassCount">0/10</p>
+                    </div>
+    
+                    <div class="w-full flex justify-between space-x-2">
+                        <input type="password" id="settingInputPass"
+                            class="w-full border-x-0 border-t-0 border-b-2 border-black font-Pixelify text-center text-sm p-2 focus:outline-none"
+                            placeholder="Type your password" maxlength="10"
+                            oninput="typeInput('settingInputPass', 'settingInputPassCount', 10)">
+    
+                        <button class="cursor-pointer w-[20px] h-auto"
+                            onclick="showInputPass('settingInputPass', 'settingEye')">
+                            <img src="/Images/Password eye.png" alt="eye icon" id="settingEye">
+                        </button>
+                    </div>
+                </div>
+    
+                <!--New Password-->
+                <div class="w-full h-fit flex flex-col space-y-2">
+                    <div class="flex justify-between">
+                        <label for="settingInputRePass" class="font-Pixelify text-sm text-black">New Password</label>
+                        <p class="font-Pixelify text-sm text-black" id="settingInputRePassCount">0/10</p>
+                    </div>
+    
+                    <div class="w-full flex justify-between space-x-2">
+                        <input type="password" id="settingInputRePass"
+                            class="w-full border-x-0 border-t-0 border-b-2 border-black font-Pixelify text-center text-sm p-2 focus:outline-none"
+                            placeholder="Type your new password" maxlength="10"
+                            oninput="typeInput('settingInputRePass', 'settingInputRePassCount', 10)">
+    
+                        <button class="cursor-pointer w-[20px] h-auto"
+                            onclick="showInputPass('settingInputRePass', 'settingEyeRepass')">
+                            <img src="/Images/Password eye.png" alt="eye icon" id="settingEyeRepass">
+                        </button>
+                    </div>
+                </div>
+    
+                <!--For error text-->
+                <div class="w-full h-[2rem] flex justify-center items-center">
+                    <p class="font-Pixelify text-sm" id="error-text-p"></p>
+                </div>
+    
+                <!--For buttons-->
+                <button class="font-Pixelify text-sm underline text-black cursor-pointer" onclick="proceed()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--For guest users-->
+<div class="w-screen h-screen flex justify-center items-center" id="guestSetting" style="display: none;">
+    <div class="w-fit h-fit bg-white rounded-lg p-4">
+        <h1 class="font-Pixelify text-sm text-center text-black">You are on Guest mode, Logged in to access settings</h1>
+    </div>
+</div>

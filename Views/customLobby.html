@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--Web icon-->
+    <link rel="icon" href="/Images/Checker Logo.png">
+    <title>Custom Lobby</title>
+
+    <!--Tailwind library-->
+    <link rel="stylesheet" href="/CSS/style.css">
+
+    <!--Animation css-->
+    <link rel="stylesheet" href="/CSS/animation.css">
+
+    <!--Global Animation-->
+    <link rel="stylesheet" href="/CSS/global_style.css">
+
+    <!--Crypto Js library-->
+    <script src="/Min_Library/crypto-js/crypto-js.min.js"></script>
+
+    <!--Socket IO library-->
+    <script src="/Min_Library/socket.io/client-dist/socket.io.min.js"></script>
+</head>
+
+<body class="bg-gradient-to-r from-blue-200 to-blue-400 overflow-hidden">
+    <!--invite panel modal-->
+    <div class="absolute top-0 backdrop-blur-sm w-screen h-screen flex justify-center items-center z-20" id="invitePanel" style="display: none;">
+        <div class="flex flex-col space-y-2 items-center w-[20rem] h-[20rem] p-4 rounded-lg bg-white mt-[-20rem] opacity-0" id="inviteModalContainer">
+           <div class="flex justify-between w-full h-fit">
+                <!--Modal Title-->
+                <div class="w-full h-auto">
+                    <h1 class="font-Pixelify text-lg text-black text-center">Invite Friends</h1>
+                </div>
+                
+                <!--Close button for modal-->
+                <div class="w-fit h-fit">
+                    <button class="cursor-pointer w-[10px] h-auto"
+                        onclick="modalStatus('invitePanel', 'inviteModalContainer', 'none', null)">
+                        <img src="/Images/close button.png" alt="close icon">
+                    </button>
+                </div>
+           </div>
+
+            <!--If no friends or no one is available-->
+            <div class="flex w-full h-full items-center justify-center" style="display: none;" id="no-available-invite-customLobby">
+                <p class="font-Pixelify text-sm text-black text-center" id="custom-data-text">You have no friends yet</p>
+            </div>
+
+            <!--If there is friends-->
+            <div class="flex w-full h-full items-center flex-col space-y-2 overflow-x-hidden overflow-y-auto" id="availableList-custom-container">
+                <!--------TO HIDE--------
+                <div class="flex flex-row space-x-2 items-center">
+                    <img src="/Profile/defaultProfile.png" alt="user profile"
+                        class="w-[2rem] h-[2rem] rounded-full border-2 border-blue-500">
+                    <p class="font-Pixelify text-sm text-black text-center">Homelander</p>
+                    <button
+                        class="font-Pixelify text-sm text-center text-white bg-blue-500 p-2 rounded-2xl cursor-pointer hover:bg-blue-700"
+                        onclick="">Invite</button>
+                </div>
+                !--------TO HIDE-------->
+                
+            </div>
+        </div>
+    </div>
+
+    <!--message panel modal-->
+    <div class="absolute z-10 top-0 flex justify-center items-center w-screen h-screen backdrop-blur-sm z-2"
+        id="customMessageModal" style="display: none;">
+        <div class="bg-white rounded-lg w-[80%] mt-[-20rem] opacity-0 h-fit p-4 md:w-[60%] md:rounded-2xl lg:w-[40%]"
+            id="customMessageContainer">
+            <div class="flex justify-between">
+                <div class="w-full">
+                    <h1 class="font-Pixelify text-center text-black text-lg">Lobby Chat</h1>
+                </div>
+    
+                <div class="w-fit h-fit">
+                    <button class="cursor-pointer w-[10px] h-auto"
+                        onclick="modalStatus('customMessageModal', 'customMessageContainer', 'none', null); resetCustomNotifCount()">
+                        <img src="/Images/close button.png" alt="close icon">
+                    </button>
+                </div>
+            </div>
+    
+            <!--body-->
+            <div class="flex flex-col space-y-2 p-4 items-center">
+                <!--Message div-->
+                <div class="h-[15rem] w-full border-2 border-blue-500 rounded-lg flex flex-col space-y-4 overflow-y-auto overflow-x-hidden p-2 xsm:h-[10rem] md:h-[20rem] lg:h-[20rem]"
+                    id="customMessageParent" style="scroll-behavior: smooth;">
+                    <div class="flex justify-start w-full h-auto">
+                        <!--------TO HIDE--------
+                            <div class="flex flex-col space-y-2 w-fit h-fit">
+                                <div class="flex flex-row space-x-2 items-center justify-start">
+                                    <img alt="user profile" class="w-[2rem] h-[2rem] text-sm border-2 border-blue-500 rounded-full" src="">
+                                    <p class="font-Pixelify text-black font-bold text-sm">Stuff</p>
+                                </div>
+                                <div class="w-[10rem] h-auto text-left bg-blue-500 rounded-2xl p-2 md:w-[15rem]">
+                                    <p class="font-Pixelify text-white text-sm">Stuff</p>
+                                </div>
+                            </div>
+                            <div class="flex justify-end w-full h-auto">
+                                <div class="flex flex-col space-y-2 w-fit h-fit">
+                                    <div class="flex flex-row space-x-2 items-center justify-end">
+                                        <p class="font-Pixelify text-black font-bold text-sm">Hide Stuff</p><img alt="user profile" class="w-[2rem] h-[2rem] border-2 border-blue-500 rounded-full" src="">
+                                    </div>
+                                    <div class="w-[10rem] h-auto text-left bg-blue-700 rounded-2xl p-2 md:w-[15rem]">
+                                        <p class="font-Pixelify text-white text-sm"></p>
+                                    </div>
+                                </div>
+                            </div>
+                            !--------TO HIDE-------->
+                    </div>
+                </div>
+    
+                <!--Message input-->
+                <div class="w-full h-fit flex flex-col space-y-2">
+                    <div class="flex justify-between">
+                        <label for="messageInputCustom" class="font-Pixelify text-sm text-black">Type your message</label>
+                        <p class="font-Pixelify text-sm text-black" id="messageInputCustomCount">0/80</p>
+                    </div>
+    
+                    <div class="w-full flex justify-between space-x-2">
+                        <textarea type="text" id="messageInputCustom"
+                            class="w-full h-[3rem] overflow-y-auto overflow-x-hidden border-x-0 border-t-0 border-b-2 border-black font-Pixelify text-center text-sm p-2 focus:outline-none"
+                            placeholder="Type your message" maxlength="80"
+                            oninput="typeInput('messageInputCustom', 'messageInputCustomCount', 80)"></textarea>
+    
+                        <!--Send button-->
+                        <button
+                            class="w-auto h-auto font-Pixelify text-center text-sm rounded-2xl bg-blue-500 p-2 text-white hover:bg-blue-700"
+                            onclick="sendMessageCustom()">Send Message</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Loading div spinner-->
+    <div class="absolute top-0 backdrop-blur-sm w-screen h-screen flex justify-center items-center z-20"
+        id="loadingSpinner" style="display: none;">
+        <div class="flex flex-col space-y-2 items-center w-fit p-4 rounded-lg bg-white">
+            <span class="loader"></span>
+            <p class="font-Pixelify text-black text-lg" id="validateText">text</p>
+        </div>
+    </div>
+
+    <!--Content-->
+    <div class="absolute z-2 w-screen h-screen">
+        <!--Navigation-->
+        <div class="absolute top-0 flex justify-evenly w-screen h-auto">
+            <button class="w-full h-fit font-Pixelify text-center text-sm bg-blue-500 p-2 text-white hover:bg-blue-700" onclick="dashboard()" id="dashBtn">Back to dashboard</button>
+        </div>
+
+        <div class="w-screen h-screen flex justify-center items-center" id="loginCustom">
+            <div class="flex flex-col space-y-10 xsm:space-y-2">
+                <!--Display profile-->
+                <div class="flex flex-row space-x-2">
+                    <!--Host-->
+                    <div class="w-fit h-fit flex flex-col space-y-4 p-4 rounded-2xl items-center bg-white">
+                        <!--Host title-->
+                        <h1 class="font-Pixelify text-lg text-center text-black" id="hostTitle">Host</h1>
+
+                        <!--Profile Image-->
+                        <img src="" alt="User Profile" id="hostCustomProfile" class="w-[8rem] h-[8rem] border-2 rounded-full border-blue-500 xsm:w-[5rem] xsm:h-[5rem]">
+                
+                        <!--Display username-->
+                        <p class="font-Pixelify text-center text-blue-700 text-sm" id="hostCustomName">no data</p>
+                
+                        <!--Display trophy-->
+                        <p class="font-Pixelify text-center text-blue-700 text-sm" id="hostCustomTrophy">Trophies: no data</p>
+                
+                        <!--Ready button-->
+                        <button class="font-Pixelify text-sm text-center text-white bg-blue-500 p-2 rounded-2xl cursor-pointer hover:bg-blue-700"
+                            id="custom-ready-button" onclick="readyButton()" style="display: none;">Ready</button>
+                    </div>
+                    
+                    <!--For invited player-->
+                    <div class="w-fit h-fit flex flex-col space-y-4 p-4 rounded-2xl items-center bg-white" id="inviteContainer" style="display: none;"></div>
+                </div>
+                
+                <!--Start and invite button for host-->
+                <div class="flex justify-center items-center" id="customButtonHost">
+                    <div class="flex flex-col space-y-2">
+                        <button class="font-Pixelify text-sm text-center text-white bg-blue-500 p-2 rounded-2xl cursor-pointer hover:bg-blue-700" onclick="modalStatus('invitePanel', 'inviteModalContainer', 'flex', 'modal_animation'); inviteFriendChecker()">Invite</button>
+                        <button class="font-Pixelify text-sm text-center text-white bg-blue-400 p-2 rounded-2xl cursor-not-allowed pointer-events-none"
+                            onclick="gameStart()" id="custom-start-button">Start</button>
+                    </div>
+                </div>
+            </div>
+
+            <!--Chat container for the lobby custom-->
+            <div class="absolute bottom-0 flex justify-evenly w-screen h-auto">
+                <button class="w-full h-fit font-Pixelify text-center text-sm bg-blue-500 p-2 text-white hover:bg-blue-700 md:w-fit md:h-fit md:m-4 md:rounded-2xl"
+                    onclick="modalStatus('customMessageModal', 'customMessageContainer', 'flex', 'modal_animation')">Lobby Chat <span class="rounded-full bg-red-500 font-Pixelify text-white text-sm p-1" id="notifMsg_custom"
+                        style="display: none;">0</span></button>
+            </div>
+        </div>
+    </div>
+
+    <!--For guest mode-->
+    <div class="w-screen h-screen flex justify-center items-center" id="guestCustom" style="display: none;">
+        <div class="w-fit h-fit bg-white rounded-lg p-4">
+            <h1 class="font-Pixelify text-sm text-center text-black">You are on Guest mode, Logged in to play custom with friends</h1>
+        </div>
+    </div>
+
+    <p>&nbsp;</p>
+</body>
+
+</html>
+
+<!--Script for socket io-->
+<script src="/Min_Global_SocketIO/custom_lobby_socket.min.js"></script>
+
+<!--Script for functionalities-->
+<script src="/MinJS/customModeFunction.min.js"></script>
+<script src="/Min_Global_JS/globalJS.min.js"></script>

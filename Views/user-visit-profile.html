@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--Web icon-->
+    <link rel="icon" href="/Images/Checker Logo.png">
+    <title>Online Checker - {user}</title>
+
+    <!--Tailwind library-->
+    <link rel="stylesheet" href="/CSS/style.css">
+
+    <!--Animation css-->
+    <link rel="stylesheet" href="/CSS/animation.css">
+
+    <!--Global Animation-->
+    <link rel="stylesheet" href="/CSS/global_style.css">
+
+    <!--Crypto Js library-->
+    <script src="/Min_Library/crypto-js/crypto-js.min.js"></script>
+
+    <!--Socket IO library-->
+    <script src="/Min_Library/socket.io/client-dist/socket.io.min.js"></script>
+</head>
+
+<body class="bg-gradient-to-r from-blue-200 to-blue-400 overflow-hidden">
+    <!--Loading div spinner-->
+    <div class="absolute top-0 backdrop-blur-sm w-screen h-screen flex justify-center items-center z-20" id="loadingSpinner"
+        style="display: none;">
+        <div class="flex flex-col space-y-2 items-center w-fit p-4 rounded-lg bg-white">
+            <span class="loader"></span>
+            <p class="font-Pixelify text-black text-lg" id="validateText">text</p>
+        </div>
+    </div>
+
+    <!--Side panel, this is only applicable on mobile-->
+    <div class="absolute z-10 w-screen h-screen backdrop-blur-sm" id="menuModal" style="display: none;">
+        <div class="ml-[-10rem] opacity-0 w-[50%] h-[100vh] bg-white flex flex-col space-y-4 p-4" id="menuSubModal">
+            <button class="font-Pixelify text-center text-lg text-black border-0 rounded-2xl hover:bg-blue-500 hover:text-white" onclick="modalStatus('menuModal', 'menuSubModal', 'none'); dashboard()">Back to dashboard</button>
+            <button class="font-Pixelify text-center text-lg text-black border-0 rounded-2xl hover:bg-blue-500 hover:text-white" onclick="modalStatus('menuModal', 'menuSubModal', 'none'); displayProfile()">Profile</button>
+            <button class="font-Pixelify text-center text-lg text-black border-0 rounded-2xl hover:bg-blue-500 hover:text-white" onclick="modalStatus('menuModal', 'menuSubModal', 'none'); displayUserHistory()">History</button>
+        </div>
+
+        <!--This one div is only for closing nav-->
+        <div class="mr-0 w-[50%] h-screen bg-transparent"
+            onclick="modalStatus('menuModal', 'menuSubModal', 'none', null)"></div>
+    </div>
+
+    <!--Content-->
+    <div class="absolute z-2 w-screen h-screen">
+        <!--Nav hamburger for mobile only-->
+        <div class="absolute p-4 w-auto h-auto lg:hidden">
+            <div class="w-[4rem] h-auto flex flex-col space-y-2 cursor-pointer"
+                onclick="modalStatus('menuModal', 'menuSubModal', 'flex', 'sideBar_animation')">
+                <div class="w-full h-[10px] bg-blue-700"></div>
+                <div class="w-full h-[10px] bg-blue-700"></div>
+                <div class="w-full h-[10px] bg-blue-700"></div>
+            </div>
+        </div>
+
+        <!--This one is display on the desktop/laptop-->
+        <div class="absolute top-0 justify-evenly w-screen h-auto hidden lg:flex">
+            <button class="w-full h-fit font-Pixelify text-center text-sm bg-blue-500 p-2 text-white hover:bg-blue-700" onclick="dashboard()" id="dashBtn">Back to dashboard</button>
+            <button class="w-full h-fit font-Pixelify text-center text-sm bg-blue-500 p-2 text-white hover:bg-blue-700" onclick="displayProfile()" id="profileBtn">Profile</button>
+            <button class="w-full h-fit font-Pixelify text-center text-sm bg-blue-500 p-2 text-white hover:bg-blue-700" onclick="displayUserHistory()" id="historyBtn">History</button>
+        </div>
+
+        <div class="w-screen h-screen flex justify-center items-center" id="loginProfile" style="display: none;">
+            <div class="w-fit h-fit flex flex-col space-y-4 p-4 rounded-2xl bg-white">
+                <!--Profile Image-->
+                <img src="" alt="User Profile" id="userProfile" class="w-[10rem] h-[10rem] border-2 rounded-full border-blue-500">
+
+                <!--Add Friend Button-->
+                <button class="w-full h-fit p-2 font-Pixelify text-sm text-white rounded-2xl text-center bg-blue-500 hover:bg-blue-700" onclick="clickAddBtn(); add_each_other()" id="addFriendBtn">Add Friend</button>
+        
+                <!--Display username-->
+                <p class="font-Pixelify text-center text-blue-700 text-sm" id="userProfileName">no data</p>
+        
+                <!--Display trophy-->
+                <p class="font-Pixelify text-center text-blue-700 text-sm" id="userTrophy">Trophies: no data</p>
+            </div>
+        </div>
+
+        <!--This is for user's history-->
+        <div class="w-screen h-screen flex justify-center items-center" style="display: flex;" id="userHistory">
+            <div class="w-[80%] h-[70%] bg-white rounded-lg p-4 flex flex-col space-y-4 xsm:h-[60%] md:h-[80%]">
+                <!--Title-->
+                <h1 class="font-Pixelify text-lg text-black text-center" id="userHistoryTitle">History</h1>
+                
+                <div class="w-full h-full p-2 flex flex-col space-y-4 overflow-x-hidden overflow-y-auto" id="userHistoryContainer">
+                    <!--Loader for search-->
+                    <div class="w-full h-auto flex flex-col space-y-2 items-center" id="searchLoader" style="display: flex;">
+                        <div class="loader"></div>
+                        <p class="font-Pixelify text-md text-black">Searching...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p>&nbsp;</p>
+</body>
+
+</html>
+
+<!--Script for functionalities-->
+<script src="/MinJS/visitFriend.min.js"></script>
+<script src="/MinJS/friendFunction.min.js"></script>
+<script src="/Min_Global_JS/globalJS.min.js"></script>
+
+<!--Script for socket io-->
+<script src="/Min_Global_SocketIO/connection_socket.min.js"></script>
+<script src="/Min_Global_SocketIO/friend_socket.min.js"></script>

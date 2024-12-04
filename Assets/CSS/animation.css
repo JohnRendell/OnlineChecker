@@ -1,0 +1,30 @@
+@keyframes modal_animation {
+    0%{
+        margin-top: -20rem;
+        opacity: 0;
+    }
+    100%{
+        margin-top: 0;
+        opacity: 1;
+    }
+}
+
+@keyframes sideBar_animation {
+    0%{
+        margin-left: -10rem;
+        opacity: 0;
+    }
+    100%{
+        margin-left: 0;
+        opacity: 1;
+    }
+}
+
+@keyframes loadingProgress {
+    0%{
+        width: 100%;
+    }
+    100%{
+        width: 0%;
+    }
+}
