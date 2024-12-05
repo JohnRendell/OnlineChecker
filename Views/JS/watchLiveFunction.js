@@ -101,11 +101,11 @@ async function openLobbyPanel(room, host, invited, lobbyName){
 
     if(findPlayers_data.message === 'success'){
         document.getElementById('hostUsername').innerText = findPlayers_data.hostName;
-        document.getElementById('hostProfileData').src = '/Profile/' + findPlayers_data.hostProfile;
+        document.getElementById('hostProfileData').src = findPlayers_data.hostProfile;
         document.getElementById('hostTrophyData').innerText = 'Trophy: ' + findPlayers_data.hostTrophy;
 
         document.getElementById('invitedUsername').innerText = findPlayers_data.invitedName;
-        document.getElementById('invitedProfileData').src = '/Profile/' + findPlayers_data.invitedProfile;
+        document.getElementById('invitedProfileData').src = findPlayers_data.invitedProfile;
         document.getElementById('invitedTrophyData').innerText = 'Trophy: ' + findPlayers_data.invitedTrophy;
     }
 }

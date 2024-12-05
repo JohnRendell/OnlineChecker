@@ -87,12 +87,12 @@ var global_opponent_requestCount = null;
 function getPlayersData(){
     //your data, display on desktop
     document.getElementById('yourUserData').innerText = global_username;
-    document.getElementById('yourProfileData').src = '/Profile/' + global_profile;
+    document.getElementById('yourProfileData').src = global_profile;
     document.getElementById('yourTrophyData').innerText = 'Trophy: ' + global_trophy;
 
     //on mobile
     document.getElementById('myourUserData').innerText = global_username;
-    document.getElementById('myourProfileData').src = '/Profile/' + global_profile;
+    document.getElementById('myourProfileData').src = global_profile;
     document.getElementById('myourTrophyData').innerText = 'Trophy: ' + global_trophy;
 
     //opponent
@@ -115,12 +115,12 @@ function getPlayersData(){
 
             //desktop
             document.getElementById('opponentUserData').innerText = opponentData_data.username;
-            document.getElementById('opponentProfileData').src = '/Profile/' + opponentData_data.profile;
+            document.getElementById('opponentProfileData').src = opponentData_data.profile;
             document.getElementById('opponentTrophyData').innerText = 'Trophy: ' + opponentData_data.trophy;
 
             //mobile
             document.getElementById('mopponentUserData').innerText = opponentData_data.username;
-            document.getElementById('mopponentProfileData').src = '/Profile/' + opponentData_data.profile;
+            document.getElementById('mopponentProfileData').src = opponentData_data.profile;
             document.getElementById('mopponentTrophyData').innerText = 'Trophy: ' + opponentData_data.trophy;
 
             playerTurn();
@@ -169,22 +169,22 @@ async function getWatchPlayersData(){
             if(findPlayers_data.message === 'success'){
                 //your data, display on desktop
                 document.getElementById('yourUserData').innerText = findPlayers_data.hostName;
-                document.getElementById('yourProfileData').src = '/Profile/' + findPlayers_data.hostProfile;
+                document.getElementById('yourProfileData').src = findPlayers_data.hostProfile;
                 document.getElementById('yourTrophyData').innerText = 'Trophy: ' + findPlayers_data.hostTrophy;
 
                 //on mobile
                 document.getElementById('myourUserData').innerText = findPlayers_data.hostName;
-                document.getElementById('myourProfileData').src = '/Profile/' + findPlayers_data.hostProfile;
+                document.getElementById('myourProfileData').src = findPlayers_data.hostProfile;
                 document.getElementById('myourTrophyData').innerText = 'Trophy: ' + findPlayers_data.hostTrophy;
 
                 //desktop
                 document.getElementById('opponentUserData').innerText = findPlayers_data.invitedName;
-                document.getElementById('opponentProfileData').src = '/Profile/' + findPlayers_data.invitedProfile;
+                document.getElementById('opponentProfileData').src = findPlayers_data.invitedProfile;
                 document.getElementById('opponentTrophyData').innerText = 'Trophy: ' + findPlayers_data.invitedTrophy;
 
                 //mobile
                 document.getElementById('mopponentUserData').innerText = findPlayers_data.invitedName;
-                document.getElementById('mopponentProfileData').src = '/Profile/' + findPlayers_data.invitedProfile;
+                document.getElementById('mopponentProfileData').src = findPlayers_data.invitedProfile;
                 document.getElementById('mopponentTrophyData').innerText = 'Trophy: ' + findPlayers_data.invitedTrophy;
 
                 //for turn
@@ -193,7 +193,7 @@ async function getWatchPlayersData(){
                     var indicator_div = document.getElementById('userTurnIndicator');
 
                     if(profile_div){
-                        profile_div.src = '/Profile/' + findPlayers_data.hostProfile;
+                        profile_div.src = findPlayers_data.hostProfile;
                     }
                     if(indicator_div){
                         indicator_div.innerText = findPlayers_data.hostName + ' turn';
@@ -250,7 +250,7 @@ async function spectatorPlayerTurn(){
             const turnIndi_data = await turnIndi.json();
 
             if(turnIndi_data.message === 'success'){
-                profile.src = '/Profile/' + turnIndi_data.playerProfile;
+                profile.src = turnIndi_data.playerProfile;
                 indicator.innerText = turnIndi_data.playerName + ' turn';
             }
         }
@@ -273,7 +273,7 @@ function playerTurn(){
             if(turn){
                 if(turn === 'yes'){
                     if(profile){
-                        profile.src = '/Profile/' + global_profile;
+                        profile.src = global_profile;
                     }
                     if(indicator){
                         indicator.innerText = global_username + ' turn';
@@ -282,7 +282,7 @@ function playerTurn(){
 
                 if(turn === 'no'){
                     if(profile){
-                        profile.src = '/Profile/' + global_opponent_profile;
+                        profile.src = global_opponent_profile;
                     }
                     if(indicator){
                         indicator.innerText = global_opponent_username + ' turn';
@@ -300,7 +300,7 @@ function playerTurn(){
 
             if(turn === 'yes'){
                 if(profile){
-                    profile.src = '/Profile/' + global_profile;
+                    profile.src = global_profile;
                 }
                 if(indicator){
                     indicator.innerText = global_username + ' turn';
@@ -309,7 +309,7 @@ function playerTurn(){
 
             if(turn === 'no'){
                 if(profile){
-                    profile.src = '/Profile/' + global_opponent_profile;
+                    profile.src = global_opponent_profile;
                 }
                 if(indicator){
                     indicator.innerText = global_opponent_username + ' turn';
@@ -710,7 +710,7 @@ function gameMessage(){
         var profile = document.createElement('img');
         profile.setAttribute('alt', 'user profile');
         profile.setAttribute('class', 'w-[2rem] h-[2rem] text-sm border-2 border-blue-500 rounded-full');
-        profile.setAttribute('src', '/Profile/' + global_profile);
+        profile.setAttribute('src', global_profile);
         profileSenderHolder.appendChild(profile);
 
         //sender name

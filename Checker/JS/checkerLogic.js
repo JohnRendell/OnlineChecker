@@ -210,7 +210,7 @@ function moveToTiles(tileID){
                             var indicator = document.getElementById('userTurnIndicator');
 
                             if(profile && indicator){
-                                profile.src = '/Profile/' + global_opponent_profile;
+                                profile.src = global_opponent_profile;
                                 indicator.innerText = global_opponent_username + ' turn';
                             }
                         }
