@@ -41,25 +41,24 @@ router.post('/lobbyData', async (req, res)=>{
             let player = lobbyData.turnIndicator[0];
 
             const findPlayer = await accountModel.findOne({ username: player });
+            let blueTeam = lobbyData.blueTeam;
+            let redTeam = lobbyData.redTeam;
+
+            const blueTeamMap = blueTeam.map(ally =>({
+                pieceID: ally.pieceID,
+                tileID: ally.tileID,
+                eaten_piece: ally.eaten_piece,
+                promotePiece: ally.promotePiece
+            }));
+
+            const redTeamMap = redTeam.map(enemy =>({
+                pieceID: enemy.pieceID,
+                tileID: enemy.tileID,
+                eaten_piece: enemy.eaten_piece,
+                promotePiece: enemy.promotePiece
+            }));
 
             if(findPlayer){
-                let blueTeam = lobbyData.blueTeam;
-                let redTeam = lobbyData.redTeam;
-
-                const blueTeamMap = blueTeam.map(ally =>({
-                    pieceID: ally.pieceID,
-                    tileID: ally.tileID,
-                    eaten_piece: ally.eaten_piece,
-                    promotePiece: ally.promotePiece
-                }));
-
-                const redTeamMap = redTeam.map(enemy =>({
-                    pieceID: enemy.pieceID,
-                    tileID: enemy.tileID,
-                    eaten_piece: enemy.eaten_piece,
-                    promotePiece: enemy.promotePiece
-                }));
-
                 res.status(200).json({ message: 'success', turnIndicator: lobbyData.turnIndicator, playerName: findPlayer.username, playerProfile: findPlayer.profile, blueTeamPos: blueTeamMap, redTeamPos: redTeamMap });
             }
         }
