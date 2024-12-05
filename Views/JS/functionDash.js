@@ -116,7 +116,7 @@ async function navigatePage(pageName) {
                         setTimeout(() => {
                             checkProfile_allowChange();
                             document.getElementById('userProfileName').innerText = global_username;
-                            document.getElementById('userProfile').src = '/Profile/' + global_profile;
+                            document.getElementById('userProfile').src = global_profile;
                             document.getElementById('userTrophy').innerText = 'Trophies: ' + global_trophy;
                         }, 10);
                     }
