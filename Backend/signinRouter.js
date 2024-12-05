@@ -103,7 +103,7 @@ router.post('/validateNewAcc', async (req, res)=>{
                     return today;
                 }
 
-                const createNewAccount = await accountModel.create({ username: username, password: hashPass(password), profile: 'defaultProfile.png', trophy: 0, allow_change_profile: currentDate() });
+                const createNewAccount = await accountModel.create({ username: username, password: hashPass(password), profile: 'https://i.imgur.com/ajVzRmV.jpg', trophy: 0, allow_change_profile: currentDate() });
 
                 const setFriendList = await friendModel.create({ username: username, list: [], request: [] });
 
