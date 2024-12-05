@@ -228,7 +228,7 @@ function addLobbyToWatchLive(){
 }
 setTimeout(() => {
     addLobbyToWatchLive();
-}, 100);
+}, 1000);
 
 //for initial turn
 async function spectatorPlayerTurn(){
