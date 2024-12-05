@@ -308,7 +308,7 @@ function uploadProfile(){
 
                 if(uploadImage_Data.message === 'success'){
                     global_profile = uploadImage_Data.profile;
-                    document.getElementById('userProfile').src = '/Profile/' + uploadImage_Data.profile;
+                    document.getElementById('userProfile').src = uploadImage_Data.profile;
 
                     document.getElementById('profile_allowChangeBtn').style.backgroundColor = 'red';
                     document.getElementById('profile_allowChangeBtn').style.pointerEvents = 'none';

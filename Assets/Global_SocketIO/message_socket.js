@@ -35,7 +35,7 @@ socket.on('globalMessage', (message, user, userProfile)=>{
     var profile = document.createElement('img');
     profile.setAttribute('alt', 'user profile');
     profile.setAttribute('class', 'w-[2rem] h-[2rem] border-2 border-blue-500 rounded-full');
-    profile.setAttribute('src', '/Profile/' + userProfile);
+    profile.setAttribute('src', userProfile);
     profileSenderHolder.appendChild(profile);
 
     //message container
@@ -92,7 +92,7 @@ socket.on('privateMessage', (message, user, userProfile)=>{
         var profile = document.createElement('img');
         profile.setAttribute('alt', 'user profile');
         profile.setAttribute('class', 'w-[2rem] h-[2rem] border-2 border-blue-500 rounded-full');
-        profile.setAttribute('src', '/Profile/' + userProfile);
+        profile.setAttribute('src', userProfile);
         profileSenderHolder.appendChild(profile);
 
         //message container
