@@ -3,61 +3,82 @@ const router = express.Router();
 const accountModel = require('./accountModel');
 const path = require('path');
 const multer = require('multer');
-const fs = require('fs');
 const sanitizeHtml = require('sanitize-html');
-const uuid = require('uuid');
+const FormData = require('form-data');
+const Fetch = require('node-fetch');
 
-//storage
-const storage = multer.diskStorage({
-    destination: function(req, file, callback){
-        callback(null, path.join(__dirname, '../Storage', 'Profile'));
-    },
-    filename: function(req, file, callback){
-        callback(null, 'Profile_' + uuid.v4() + path.extname(file.originalname));
-    },
-});
+//get the env key
+require('dotenv').config({path: path.resolve(__dirname, '../keys.env')});
 
-const upload = multer({ storage: storage });
+const upload = multer();
 
 router.post('/', upload.single('imageFile'), async (req, res)=>{
     const imageFile = req.file;
     const username = sanitizeHtml(req.body.username);
+    let imgur_profileLink;
+
+    const formData = new FormData();
+    formData.append('image', imageFile.buffer.toString('base64'));
+
+    try{
+        const upload_imgur = await Fetch('https://api.imgur.com/3/image', {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${process.env.IMGUR_TOKEN}`
+            },
+            body: formData
+        });
+
+        const upload_imgur_data = await upload_imgur.json();
+
+        if(upload_imgur_data.success){
+            imgur_profileLink = upload_imgur_data.data.link;
+        }
+    }
+    catch(err){
+        console.log(err);
+    }
 
     //for deleting old image
     const clearUnusedProfile = async () => {
         try {
-            // Get all user profiles from the database
-            const users = await accountModel.find({}, 'profile');
+            // Get all user profile from the database
+            const user = await accountModel.findOne({ username: username });
             
-            if (users) {
-                // Collect all profile images that are currently in use
-                const usedProfiles = users.map(user => user.profile);
+            if (user) {
+                const userProfile = user.profile;
+                const userProfileHash = userProfile.substring(20, 27);
 
-                // Read the profile images stored in the folder
-                const picContent = fs.readdirSync(path.join(__dirname, '../Storage', 'Profile'));
-
-                picContent.forEach(pic => {
-                    if(pic !== 'defaultProfile.png' && usedProfiles.includes(pic) == false){
-                        let filePath = path.join(__dirname, '../Storage', 'Profile', pic);
-                        fs.unlink(filePath, (err)=>{
-                            if(err){
-                                console.log(err);
+                if(userProfile !== 'https://i.imgur.com/ajVzRmV.jpg'){
+                    try{
+                        const deleteProfile = await Fetch('https://api.imgur.com/3/image/' + userProfileHash, {
+                            method: "DELETE",
+                            headers: {
+                                Authorization: `Bearer ${process.env.IMGUR_TOKEN}`
                             }
                         });
+
+                        const deleteProfile_data = await deleteProfile.json();
+
+                        if(deleteProfile_data.success){
+                            console.log('Old Profile Deleted');
+                        }
                     }
-                });
+                    catch(err){
+                        console.log(err);
+                    }
+                }
             }
         } catch (err) {
-            console.log('Error during profile cleanup:', err);
+            console.log(err);
         }
     };
+    clearUnusedProfile();
 
     if(!imageFile){
         res.status(200).json({ message: 'no image selected' });
     }
     else{
-        let folderPath = path.join(__dirname, '../Storage', 'Profile', imageFile.filename);
-
         //find the user first
         try{
             const findUser = await accountModel.findOne({ username: username });
@@ -89,31 +110,26 @@ router.post('/', upload.single('imageFile'), async (req, res)=>{
                 };
 
 
-                if(fs.existsSync(folderPath)){
-                    if(allowed(findUser)){
-                        try{
-                            const findUser = await accountModel.findOneAndUpdate(
-                                { username: username },
-                                { 
-                                    $set: { 
-                                        profile: imageFile.filename,
-                                        allow_change_profile: futureDate()
-                                    }
-                                },
-                                { new: true }
-                            )
+                if(allowed(findUser)){
+                    try{
+                        const findUser = await accountModel.findOneAndUpdate(
+                            { username: username },
+                            { 
+                                $set: { 
+                                    profile: imgur_profileLink,
+                                    allow_change_profile: futureDate()
+                                }
+                            },
+                            { new: true }
+                        )
 
-                            if(findUser){
-                                res.status(200).json({ message: 'success', profile: imageFile.filename, date: futureDate() });
-                            }
-                        }
-                        catch(err){
-                            console.log(err);
+                        if(findUser){
+                            res.status(200).json({ message: 'success', profile: imgur_profileLink, date: futureDate() });
                         }
                     }
-                }
-                else{
-                    res.status(200).json({ message: 'failed' });
+                    catch(err){
+                        console.log(err);
+                    }
                 }
             }
         }
@@ -121,9 +137,6 @@ router.post('/', upload.single('imageFile'), async (req, res)=>{
             console.log(err)
         }
     }
-    setTimeout(() => {
-        clearUnusedProfile();
-    }, 1000);
 });
 
 router.post('/checkProfile', async (req, res)=>{
