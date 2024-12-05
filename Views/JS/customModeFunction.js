@@ -103,7 +103,7 @@ async function getParamInvitedPlayer(){
                         //host profile
                         var img = document.createElement('img');
                         img.setAttribute('alt', 'User Profile');
-                        img.setAttribute('src', '/Profile/' + hostProfile);
+                        img.setAttribute('src', hostProfile);
                         img.setAttribute('class', 'w-[8rem] h-[8rem] border-2 rounded-full border-blue-500 xsm:w-[5rem] xsm:h-[5rem]');
                         containerParent.appendChild(img);
 
@@ -137,7 +137,7 @@ async function getParamInvitedPlayer(){
                         //profile
                         var img = document.createElement('img');
                         img.setAttribute('alt', 'User Profile');
-                        img.setAttribute('src', '/Profile/' + player_profile);
+                        img.setAttribute('src', player_profile);
                         img.setAttribute('class', 'w-[8rem] h-[8rem] border-2 rounded-full border-blue-500 xsm:w-[5rem] xsm:h-[5rem]');
                         containerParent.appendChild(img);
 
@@ -234,7 +234,7 @@ function onGuestMode(){
 
             //add data for the host
             document.getElementById('hostCustomName').innerText = global_username;
-            document.getElementById('hostCustomProfile').src = '/Profile/' + global_profile;
+            document.getElementById('hostCustomProfile').src = global_profile;
             document.getElementById('hostCustomTrophy').innerText = 'Trophies: ' + global_trophy;
         }
     }
@@ -351,7 +351,7 @@ function invitePlayer(player, profile, room){
         var profileImg = document.createElement('img');
         profileImg.setAttribute('class', 'w-[2rem] h-[2rem] rounded-full border-2 border-blue-500');
         profileImg.setAttribute('alt', 'user profile');
-        profileImg.setAttribute('src', '/Profile/' + profile);
+        profileImg.setAttribute('src', profile);
         container_div.appendChild(profileImg);
 
         var username = document.createElement('p');
@@ -441,7 +441,7 @@ function sendMessageCustom(){
         var profile = document.createElement('img');
         profile.setAttribute('alt', 'user profile');
         profile.setAttribute('class', 'w-[2rem] h-[2rem] text-sm border-2 border-blue-500 rounded-full');
-        profile.setAttribute('src', '/Profile/' + global_profile);
+        profile.setAttribute('src', global_profile);
         profileSenderHolder.appendChild(profile);
 
         //sender name

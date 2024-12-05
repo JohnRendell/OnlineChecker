@@ -41,7 +41,7 @@ socket.on('custom-check-user-active-friend', (player, profile)=>{
         var profileImg = document.createElement('img');
         profileImg.setAttribute('class', 'w-[2rem] h-[2rem] rounded-full border-2 border-blue-500');
         profileImg.setAttribute('alt', 'user profile');
-        profileImg.setAttribute('src', '/Profile/' + profile);
+        profileImg.setAttribute('src', profile);
         container_div.appendChild(profileImg);
 
         var username = document.createElement('p');
@@ -89,7 +89,7 @@ socket.on('invite-declined', (player, profile)=>{
         var profileImg = document.createElement('img');
         profileImg.setAttribute('class', 'w-[2rem] h-[2rem] rounded-full border-2 border-blue-500');
         profileImg.setAttribute('alt', 'user profile');
-        profileImg.setAttribute('src', '/Profile/' + profile);
+        profileImg.setAttribute('src', profile);
         container_div.appendChild(profileImg);
 
         var username = document.createElement('p');
@@ -115,7 +115,7 @@ socket.on('invite-accepted', (player_name, player_profile, player_trophy)=>{
         //profile
         var img = document.createElement('img');
         img.setAttribute('alt', 'User Profile');
-        img.setAttribute('src', '/Profile/' + player_profile);
+        img.setAttribute('src', player_profile);
         img.setAttribute('class', 'w-[8rem] h-[8rem] border-2 rounded-full border-blue-500 xsm:w-[5rem] xsm:h-[5rem]');
         containerParent.appendChild(img);
 
@@ -293,7 +293,7 @@ socket.on('custom-lobby-room-message', (message, user, userProfile)=>{
         var profile = document.createElement('img');
         profile.setAttribute('alt', 'user profile');
         profile.setAttribute('class', 'w-[2rem] h-[2rem] border-2 border-blue-500 rounded-full');
-        profile.setAttribute('src', '/Profile/' + userProfile);
+        profile.setAttribute('src', userProfile);
         profileSenderHolder.appendChild(profile);
 
         //message container

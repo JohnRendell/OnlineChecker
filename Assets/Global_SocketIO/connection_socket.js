@@ -130,7 +130,7 @@ socket.on('invite-custom', (player, player_profile, room)=>{
     document.getElementById('customHostName').innerText = player + ' inviting you in custom lobby';
 
     //set the profile of the host for rendering display
-    document.getElementById('hostProfile').src = '/Profile/' + player_profile;
+    document.getElementById('hostProfile').src = player_profile;
 
     //for loading div
     var loadingDiv = document.getElementById('customLoadingBar');
