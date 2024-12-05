@@ -39,7 +39,7 @@ router.post('/', verifyToken, async (req, res)=>{
 
         if(guaranteedAccess){
             if(cookie_username.startsWith('guest')){
-                res.status(200).json({ message: 'guest_mode', username: cookie_username, profile: 'defaultProfile.png' });
+                res.status(200).json({ message: 'guest_mode', username: cookie_username, profile: 'https://i.imgur.com/ajVzRmV.jpg' });
             }
 
             //if the user is logged in
