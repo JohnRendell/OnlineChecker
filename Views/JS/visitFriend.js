@@ -112,7 +112,7 @@ async function getParamPlayer(){
             //pass all the info
             document.title = 'Profile - ' + getInfo_Data.username;
 
-            document.getElementById('userProfile').src = '/Profile/' + getInfo_Data.profile;
+            document.getElementById('userProfile').src = getInfo_Data.profile;
             document.getElementById('userProfileName').innerText = getInfo_Data.username;
             document.getElementById('userTrophy').innerText = 'Trophies: ' + getInfo_Data.trophy;
 

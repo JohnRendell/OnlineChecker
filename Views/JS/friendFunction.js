@@ -288,7 +288,7 @@ async function search_player_findfriend() {
                 var profile = document.createElement('img');
                 profile.setAttribute('class', 'w-[3rem] h-[3rem] rounded-full border-2 border-blue-500');
                 profile.setAttribute('alt', 'user profile');
-                profile.setAttribute('src', '/Profile/' + user_profile);
+                profile.setAttribute('src', user_profile);
                 divContainer.appendChild(profile);
 
                 //username
@@ -382,7 +382,7 @@ async function findFriend_view(){
                 var profile = document.createElement('img');
                 profile.setAttribute('class', 'w-[3rem] h-[3rem] rounded-full border-2 border-blue-500');
                 profile.setAttribute('alt', 'user profile');
-                profile.setAttribute('src', '/Profile/' + user_profile);
+                profile.setAttribute('src', user_profile);
                 divContainer.appendChild(profile);
 
                 //username
