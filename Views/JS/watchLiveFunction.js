@@ -68,6 +68,7 @@ async function displayLobby(){
 
 //this is for opening the lobby live panel
 async function openLobbyPanel(room, host, invited, lobbyName){
+    alert(room + ' ' + host + ' ' + invited + ' ' + lobbyName)
    var buttonWrapper = document.getElementById('buttonWrapperLobby');
 
    //append the buttons
