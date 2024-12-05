@@ -297,6 +297,9 @@ function uploadProfile(){
 
         // Check if a file was selected
         if (file) {
+            document.getElementById('loadingSpinner').style.display = 'flex';
+            document.getElementById('validateText').innerText = 'Validating Profile, please wait...';
+
             //if does, then upload it to the server
             try{
                 const uploadImage = await fetch('/uploadImage', {
@@ -307,6 +310,8 @@ function uploadProfile(){
                 const uploadImage_Data = await uploadImage.json();
 
                 if(uploadImage_Data.message === 'success'){
+                    document.getElementById('loadingSpinner').style.display = 'none';
+
                     global_profile = uploadImage_Data.profile;
                     document.getElementById('userProfile').src = uploadImage_Data.profile;
 
