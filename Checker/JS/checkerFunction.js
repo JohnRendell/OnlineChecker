@@ -220,7 +220,7 @@ function addLobbyToWatchLive(){
         if(lobbyType && lobbyRoom){
             let invited = CryptoJS.AES.decrypt(localStorage.getItem('invited-player'), 'invited-player').toString(CryptoJS.enc.Utf8);
             
-            if(invited){
+            if(invited && !invited.startsWith('guest')){
                 socket.emit('addLobby', lobbyType, lobbyRoom, global_username, invited);
             }
         }
