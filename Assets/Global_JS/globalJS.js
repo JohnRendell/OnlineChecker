@@ -123,7 +123,7 @@ function sendMessagePrivate(){
             var profile = document.createElement('img');
             profile.setAttribute('alt', 'user profile');
             profile.setAttribute('class', 'w-[2rem] h-[2rem] text-sm border-2 border-blue-500 rounded-full');
-            profile.setAttribute('src', '/Profile/' + global_profile);
+            profile.setAttribute('src', global_profile);
             profileSenderHolder.appendChild(profile);
 
             //sender name

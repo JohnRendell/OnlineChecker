@@ -6,7 +6,6 @@ const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const sanitize = require('sanitize-html');
 const accountModel = require('./accountModel');
-const { hostname } = require('os');
 
 //middle ware for cookies
 require('dotenv').config({path: path.resolve(__dirname, '../keys.env')});
