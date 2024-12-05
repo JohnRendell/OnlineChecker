@@ -100,7 +100,7 @@ socket.on('spectator_turnIndicator', (turn, username, profile)=>{
         var indicator_div = document.getElementById('userTurnIndicator');
 
         if(profile_div && indicator_div){
-            profile_div.src = '/Profile/' + profile;
+            profile_div.src = profile;
             indicator_div.innerText = username + ' turn';
         }
 

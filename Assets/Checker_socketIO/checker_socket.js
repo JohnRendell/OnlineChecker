@@ -141,7 +141,7 @@ socket.on('gameMessage', (message, user, userProfile)=>{
         var profile = document.createElement('img');
         profile.setAttribute('alt', 'user profile');
         profile.setAttribute('class', 'w-[2rem] h-[2rem] border-2 border-blue-500 rounded-full');
-        profile.setAttribute('src', '/Profile/' + userProfile);
+        profile.setAttribute('src', userProfile);
         profileSenderHolder.appendChild(profile);
 
         //message container
@@ -255,7 +255,7 @@ socket.on('checker-player-eat-piece', (pieceID)=>{
             var indicator = document.getElementById('userTurnIndicator');
 
             if(profile && indicator){
-                profile.src = '/Profile/' + global_opponent_profile;
+                profile.src = global_opponent_profile;
                 indicator.innerText = global_opponent_username + ' turn';
             }
         }
@@ -272,7 +272,7 @@ socket.on('checker-player-turn', (turn) =>{
     if(localStorage.getItem('host') || localStorage.getItem('invited-player')){
         if(turnIndicator == 'no'){
             if(profile){
-                profile.src = '/Profile/' + global_opponent_profile;
+                profile.src = global_opponent_profile;
             }
             if(indicator){
                 indicator.innerText = global_opponent_username + ' turn';
@@ -280,7 +280,7 @@ socket.on('checker-player-turn', (turn) =>{
         }
         else{
             if(profile){
-                profile.src = '/Profile/' + global_profile;
+                profile.src = global_profile;
             }
             if(indicator){
                 indicator.innerText = global_username + ' turn';
