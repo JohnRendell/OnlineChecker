@@ -289,40 +289,48 @@ function uploadProfile(){
 
     targetImage.addEventListener('change', async (event)=>{
         const file = event.target.files[0];
+        const fileExtension = file.name.split('.').pop();
 
-        //pass the files to form data
-        const formData = new FormData;
-        formData.append('imageFile', file);
-        formData.append('username', global_username);
+        //check if the file extension is valid
+        if(fileExtension !== 'webp' && fileExtension !== 'gif'){
+            
+            //pass the files to form data
+            const formData = new FormData;
+            formData.append('imageFile', file);
+            formData.append('username', global_username);
 
-        // Check if a file was selected
-        if (file) {
-            document.getElementById('loadingSpinner').style.display = 'flex';
-            document.getElementById('validateText').innerText = 'Validating Profile, please wait...';
+            // Check if a file was selected
+            if (file) {
+                document.getElementById('loadingSpinner').style.display = 'flex';
+                document.getElementById('validateText').innerText = 'Validating Profile, please wait...';
 
-            //if does, then upload it to the server
-            try{
-                const uploadImage = await fetch('/uploadImage', {
-                    method: "POST",
-                    body: formData
-                });
+                //if does, then upload it to the server
+                try{
+                    const uploadImage = await fetch('/uploadImage', {
+                        method: "POST",
+                        body: formData
+                    });
 
-                const uploadImage_Data = await uploadImage.json();
+                    const uploadImage_Data = await uploadImage.json();
 
-                if(uploadImage_Data.message === 'success'){
-                    document.getElementById('loadingSpinner').style.display = 'none';
+                    if(uploadImage_Data.message === 'success'){
+                        document.getElementById('loadingSpinner').style.display = 'none';
 
-                    global_profile = uploadImage_Data.profile;
-                    document.getElementById('userProfile').src = uploadImage_Data.profile;
+                        global_profile = uploadImage_Data.profile;
+                        document.getElementById('userProfile').src = uploadImage_Data.profile;
 
-                    document.getElementById('profile_allowChangeBtn').style.backgroundColor = 'red';
-                    document.getElementById('profile_allowChangeBtn').style.pointerEvents = 'none';
-                    document.getElementById('profile_allowChangeBtn').innerText = 'Wait until ' + uploadImage_Data.date;
+                        document.getElementById('profile_allowChangeBtn').style.backgroundColor = 'red';
+                        document.getElementById('profile_allowChangeBtn').style.pointerEvents = 'none';
+                        document.getElementById('profile_allowChangeBtn').innerText = 'Wait until ' + uploadImage_Data.date;
+                    }
+                }
+                catch(err){
+                    console.log(err);
                 }
             }
-            catch(err){
-                console.log(err);
-            }
+        }
+        else{
+            modalStatus('modalProfileWarningPanel', 'modalProfileWarningContainer', 'flex', 'modal_animation')
         }
     });
 }
