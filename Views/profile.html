@@ -1,3 +1,17 @@
+<!--warning profile div-->
+<div class="absolute z-10 top-0 flex justify-center items-center w-screen h-screen backdrop-blur-sm z-2"
+    id="modalProfileWarningPanel" style="display: none;">
+    <div class="bg-white rounded-lg w-fit mt-[20rem] opacity-0 h-fit p-4 md:rounded-2xl"
+        id="modalProfileWarningContainer">
+        <div class="flex flex-col space-y-2 items-center">
+            <h1 class="font-Pixelify text-center text-blue-700 text-sm">Only jpeg, jpg, png allowed</h1>
+            
+            <button class="font-Pixelify text-sm text-center text-white bg-blue-500 p-2 rounded-2xl cursor-pointer"
+                onclick="modalStatus('modalProfileWarningPanel', 'modalProfileWarningContainer', 'none', null)">Okay</button>
+        </div>
+    </div>
+</div>
+
 <!--Logged in div-->
 <div class="w-screen h-screen flex justify-center items-center" id="loginProfile" style="display: flex;">
     <div class="w-fit h-fit flex flex-col space-y-4 p-4 rounded-2xl bg-white">
